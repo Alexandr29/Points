@@ -18,7 +18,7 @@ public class Points extends JFrame {
     //Constructor
         public Points(){
             setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            setSize(600,500);
+            setSize(700,500);
             setContentPane(mainPanel);
         }
 
