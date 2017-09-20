@@ -2,62 +2,155 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.Points">
   <grid id="27dc6" binding="mainPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="685" height="400"/>
+      <xy x="20" y="20" width="685" height="472"/>
     </constraints>
     <properties>
       <toolTipText value="Counter"/>
     </properties>
     <border type="none"/>
     <children>
-      <grid id="1bff9" binding="topPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+      <grid id="1bff9" binding="topPanel" layout-manager="FormLayout">
+        <rowspec value="center:d:noGrow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <colspec value="fill:d:grow"/>
+        <colspec value="left:4dlu:noGrow"/>
+        <colspec value="fill:d:grow"/>
+        <colspec value="left:4dlu:noGrow"/>
+        <colspec value="fill:d:grow"/>
+        <colspec value="left:4dlu:noGrow"/>
+        <colspec value="fill:d:grow"/>
+        <colspec value="left:4dlu:noGrow"/>
+        <colspec value="fill:d:grow"/>
+        <colspec value="left:4dlu:noGrow"/>
+        <colspec value="fill:d:grow"/>
+        <colspec value="left:4dlu:noGrow"/>
+        <colspec value="fill:d:grow"/>
         <constraints border-constraint="North"/>
-        <properties/>
+        <properties>
+          <preferredSize width="1124" height="80"/>
+        </properties>
         <border type="none"/>
         <children>
-          <component id="3f67b" class="javax.swing.JFormattedTextField" binding="chanceUp">
-            <constraints/>
+          <component id="a60e5" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
             <properties>
-              <columns value="5"/>
-              <text value="Up"/>
+              <text value="ChanceUp"/>
             </properties>
           </component>
-          <component id="c5dbe" class="javax.swing.JFormattedTextField" binding="chanceDown">
-            <constraints/>
+          <component id="6b9ba" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
             <properties>
-              <columns value="5"/>
-              <text value="Down"/>
+              <text value="ChanceDown"/>
             </properties>
           </component>
-          <component id="3e3a5" class="javax.swing.JFormattedTextField" binding="chanceLeft">
-            <constraints/>
+          <component id="674db" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
             <properties>
-              <columns value="5"/>
-              <text value="Left"/>
+              <text value="ChanceLeft"/>
             </properties>
           </component>
-          <component id="e8e8f" class="javax.swing.JFormattedTextField" binding="chanceRight">
-            <constraints/>
+          <component id="c943e" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
             <properties>
-              <columns value="5"/>
-              <text value="Right"/>
+              <text value="ChanceRight"/>
             </properties>
           </component>
-          <component id="ebd4f" class="javax.swing.JFormattedTextField" binding="chanceStop">
-            <constraints/>
+          <component id="78f3a" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="8" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
             <properties>
-              <columns value="5"/>
-              <text value="Stop"/>
+              <text value="ChanceStop"/>
             </properties>
           </component>
-          <component id="1eb3a" class="javax.swing.JFormattedTextField" binding="counter">
-            <constraints/>
+          <component id="ca757" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="10" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
             <properties>
-              <columns value="15"/>
               <text value="Counter"/>
             </properties>
           </component>
+          <component id="3f67b" class="javax.swing.JFormattedTextField" binding="chanceUp">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
+            <properties>
+              <columns value="5"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="c5dbe" class="javax.swing.JFormattedTextField" binding="chanceDown">
+            <constraints>
+              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
+            <properties>
+              <columns value="5"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="3e3a5" class="javax.swing.JFormattedTextField" binding="chanceLeft">
+            <constraints>
+              <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
+            <properties>
+              <columns value="5"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="e8e8f" class="javax.swing.JFormattedTextField" binding="chanceRight">
+            <constraints>
+              <grid row="2" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
+            <properties>
+              <columns value="5"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="ebd4f" class="javax.swing.JFormattedTextField" binding="chanceStop">
+            <constraints>
+              <grid row="2" column="8" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
+            <properties>
+              <columns value="5"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="1eb3a" class="javax.swing.JFormattedTextField" binding="counter">
+            <constraints>
+              <grid row="2" column="10" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
+            <properties>
+              <columns value="15"/>
+              <text value=""/>
+            </properties>
+          </component>
           <component id="e4417" class="javax.swing.JButton" binding="startButton">
-            <constraints/>
+            <constraints>
+              <grid row="2" column="12" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
             <properties>
               <text value="Start"/>
             </properties>

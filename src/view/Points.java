@@ -4,8 +4,8 @@ import javax.swing.*;
 
 public class Points extends JFrame {
     private JPanel mainPanel;
-    //private JPanel topPanel;
-    //private JPanel downPanel;
+    private JPanel topPanel;
+    private JPanel downPanel;
     private JFormattedTextField chanceUp;
     private JFormattedTextField chanceDown;
     private JFormattedTextField chanceLeft;
@@ -23,8 +23,6 @@ public class Points extends JFrame {
         }
 
         //Getters
-
-
     public JFormattedTextField getChanceUp() {
         return chanceUp;
     }
@@ -46,7 +44,8 @@ public class Points extends JFrame {
     }
 
     public JButton getStartButton() {
-        return startButton;
+        startButton.setEnabled(false);
+            return startButton;
     }
 
     public JProgressBar getProgressBar1() {
@@ -54,6 +53,15 @@ public class Points extends JFrame {
     }
 
     public JFormattedTextField getCounter() {
+
         return counter;
+    }
+
+    public JPanel getTopPanel() {
+        return topPanel;
+    }
+
+    public JPanel getDownPanel() {
+        return downPanel;
     }
 }

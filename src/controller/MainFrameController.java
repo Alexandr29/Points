@@ -18,6 +18,8 @@ public class MainFrameController {
     private JButton startButton;
     private JProgressBar progressBar1;
     private JFormattedTextField counter;
+    private JPanel topPanel;
+    private JPanel downPanel;
 
     public MainFrameController() {
         points = new Points();
@@ -26,14 +28,23 @@ public class MainFrameController {
     }
 
     private void initListeners() {
-        chanceUp.addMouseListener(new chanceAdapter());
+        chanceUp.addMouseListener(new ChanceAdapter());
         chanceUp.addKeyListener(new MyKeyAdapter());
 
-        chanceDown.addMouseListener(new chanceAdapter());
+        chanceDown.addMouseListener(new ChanceAdapter());
+        chanceDown.addKeyListener(new MyKeyAdapter());
 
-        chanceLeft.addMouseListener(new chanceAdapter());
-        chanceRight.addMouseListener(new chanceAdapter());
-        chanceStop.addMouseListener(new chanceAdapter());
+        chanceLeft.addMouseListener(new ChanceAdapter());
+        chanceLeft.addKeyListener(new MyKeyAdapter());
+
+        chanceRight.addMouseListener(new ChanceAdapter());
+        chanceRight.addKeyListener(new MyKeyAdapter());
+
+        chanceStop.addMouseListener(new ChanceAdapter());
+        chanceStop.addKeyListener(new MyKeyAdapter());
+
+        counter.addMouseListener(new ChanceAdapter());
+        counter.addKeyListener(new MyKeyAdapter());
 
         startButton.addActionListener(new StartProgressBarListener());
     }
@@ -47,10 +58,12 @@ public class MainFrameController {
         startButton = points.getStartButton();
         progressBar1 = points.getProgressBar1();
         counter = points.getCounter();
+        topPanel = points.getTopPanel();
+        downPanel = points.getDownPanel();
     }
 
     //Adapters
-    private class chanceAdapter extends MouseAdapter {
+    private class ChanceAdapter extends MouseAdapter {
         @Override
         public void mouseClicked(MouseEvent e) {
             System.out.println("Mouse clicked");
@@ -74,20 +87,43 @@ public class MainFrameController {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            JTextField jTextField = (JTextField) e.getSource();
-            if (jTextField.getText().equals("Up") | jTextField.getText().equals("Down") | jTextField.getText().equals("Left") | jTextField.getText().equals("Right") | jTextField.getText().equals("Stop")) {
-                jTextField.setText("");
+            JFormattedTextField jFormattedTextField = (JFormattedTextField) e.getSource();
+            if (jFormattedTextField.getText().equals("Up") | jFormattedTextField.getText().equals("Down") | jFormattedTextField.getText().equals("Left") | jFormattedTextField.getText().equals("Right") | jFormattedTextField.getText().equals("Stop") | jFormattedTextField.getText().equals("Counter")) {
+                jFormattedTextField.setText("");
             }
         }
     }
 
-
-    public void showMainFrame() {
-        points.setLocationRelativeTo(null);
-        points.setVisible(true);
-    }
-
     private class MyKeyAdapter extends KeyAdapter {
+        @Override
+        public void keyTyped(KeyEvent e) {
+           String a = chanceUp.getText();
+           String b = chanceDown.getText();
+           String c = chanceLeft.getText();
+           String d = chanceRight.getText();
+           String f = chanceStop.getText();
+           String g = counter.getText();
+
+           if (!Objects.equals(a, "") & !Objects.equals(b, "")& !Objects.equals(c, "") & !Objects.equals(d, "")& !Objects.equals(f, "") & !Objects.equals(g, "") ){
+               double q = Double.parseDouble(a);
+               double w = Double.parseDouble(b);
+               double r = Double.parseDouble(c);
+               double t = Double.parseDouble(d);
+               double y = Double.parseDouble(f);
+
+               double res = (q + w + r + t + y);
+               double newDouble = new BigDecimal(res).setScale(3, RoundingMode.HALF_UP).doubleValue();
+
+               System.out.println("Я тут");
+               System.out.println(newDouble);
+               if (newDouble == 1){
+                   System.out.println(newDouble == 1);
+                   startButton.setEnabled(true);
+               }
+
+           }
+        }
+
         @Override
         public void keyPressed(KeyEvent e) {
             if (chanceUp.getText().equals("Up")){
@@ -95,6 +131,13 @@ public class MainFrameController {
             }
         }
     }
+
+    public void showMainFrame() {
+        points.setLocationRelativeTo(null);
+        points.setVisible(true);
+    }
+
+
 
     private class StartProgressBarListener implements ActionListener {
 
