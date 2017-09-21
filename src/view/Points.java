@@ -1,5 +1,4 @@
 package view;
-
 import javax.swing.*;
 
 public class Points extends JFrame {
@@ -14,15 +13,21 @@ public class Points extends JFrame {
     private JButton startButton;
     private JProgressBar progressBar1;
     private JFormattedTextField counter;
+    private JFormattedTextField formattedTextField1;
+    private JFormattedTextField formattedTextField2;
+    private JFormattedTextField formattedTextField3;
+    private JFormattedTextField formattedTextField4;
+    private JPanel leftPanel;
 
     //Constructor
-        public Points(){
-            setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            setSize(700,500);
-            setContentPane(mainPanel);
-        }
+    public Points() {
+        setTitle("Points");
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setSize(800, 600);
+        setContentPane(mainPanel);
+    }
 
-        //Getters
+    //Getters
     public JFormattedTextField getChanceUp() {
         return chanceUp;
     }
@@ -45,7 +50,7 @@ public class Points extends JFrame {
 
     public JButton getStartButton() {
         startButton.setEnabled(false);
-            return startButton;
+        return startButton;
     }
 
     public JProgressBar getProgressBar1() {
@@ -64,4 +69,5 @@ public class Points extends JFrame {
     public JPanel getDownPanel() {
         return downPanel;
     }
+
 }

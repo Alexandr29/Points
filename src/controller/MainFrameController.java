@@ -21,6 +21,7 @@ public class MainFrameController {
     private JPanel topPanel;
     private JPanel downPanel;
 
+    //Constructor
     public MainFrameController() {
         points = new Points();
         initComponents();
@@ -62,10 +63,17 @@ public class MainFrameController {
         downPanel = points.getDownPanel();
     }
 
+    //setVisibleTrue
+    public void showMainFrame() {
+        points.setLocationRelativeTo(null);
+        points.setVisible(true);
+    }
     //Adapters
+
     private class ChanceAdapter extends MouseAdapter {
+
         @Override
-        public void mouseClicked(MouseEvent e) {
+        public void mouseReleased(MouseEvent e) {
             System.out.println("Mouse clicked");
             if (chanceStop.getText().equals("")) {
                 if ((!Objects.equals(chanceUp.getText(), "")) & (!Objects.equals(chanceDown.getText(), "")) & (!Objects.equals(chanceLeft.getText(), "")) & (!Objects.equals(chanceRight.getText(), ""))) {
@@ -74,13 +82,16 @@ public class MainFrameController {
                     double b = Double.parseDouble(chanceLeft.getText());
                     double c = Double.parseDouble(chanceRight.getText());
 
-                    double res = (1 - (a + b + c + d));
-                    double newDouble = new BigDecimal(res).setScale(3, RoundingMode.HALF_UP).doubleValue();
+                    if ((d+a+b+c)<1 ){
+                        double res = (1 - (a + b + c + d));
+                        double newDouble = new BigDecimal(res).setScale(3, RoundingMode.HALF_UP).doubleValue();
 
-                                                                                                                        //System.out.println(newDouble);
+                        //System.out.println(newDouble);
 
-                    JTextField jTextField = (JTextField) e.getSource();
-                    jTextField.setText(String.valueOf(newDouble));
+                        JFormattedTextField jTextField = (JFormattedTextField) e.getSource();
+                        jTextField.setText(String.valueOf(newDouble));
+                    }
+
                 }
             }
         }
@@ -95,8 +106,15 @@ public class MainFrameController {
     }
 
     private class MyKeyAdapter extends KeyAdapter {
+
         @Override
-        public void keyTyped(KeyEvent e) {
+        public void keyPressed(KeyEvent e) {
+
+            char input = e.getKeyChar();
+            if ((input<'0' || input > '9') && input !='\b' &&input !='.'){
+                e.consume();
+            }
+
            String a = chanceUp.getText();
            String b = chanceDown.getText();
            String c = chanceLeft.getText();
@@ -111,53 +129,72 @@ public class MainFrameController {
                double t = Double.parseDouble(d);
                double y = Double.parseDouble(f);
 
-               double res = (q + w + r + t + y);
-               double newDouble = new BigDecimal(res).setScale(3, RoundingMode.HALF_UP).doubleValue();
 
-               System.out.println("Я тут");
-               System.out.println(newDouble);
-               if (newDouble == 1){
-                   System.out.println(newDouble == 1);
-                   startButton.setEnabled(true);
+               if (y>=0 & y<=1){
+                   double res = (q + w + r + t + y);
+                   double newDouble = new BigDecimal(res).setScale(3, RoundingMode.HALF_UP).doubleValue();
+
+                   System.out.println("Я тут");
+                   System.out.println(newDouble);
+                   if (newDouble == 1){
+                       System.out.println(newDouble == 1);
+                       startButton.setEnabled(true);
+                   }
                }
+
+
+
+
 
            }
         }
 
-        @Override
-        public void keyPressed(KeyEvent e) {
-            if (chanceUp.getText().equals("Up")){
-                chanceUp.setText("");
-            }
-        }
+       // @Override
+       // public void keyPressed(KeyEvent e) {
+       //   if (chanceUp.getText().equals("Up")){
+      //          chanceUp.setText("");
+      //      }
+       //}
     }
 
-    public void showMainFrame() {
-        points.setLocationRelativeTo(null);
-        points.setVisible(true);
-    }
-
-
-
+    //Listeners
     private class StartProgressBarListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            SwingWorker<Void, Void> swingWorker = new SwingWorker<Void, Void>(){
+            String a = chanceUp.getText();
+            String b = chanceDown.getText();
+            String c = chanceLeft.getText();
+            String d = chanceRight.getText();
+            String f = chanceStop.getText();
+            String g = counter.getText();
 
-                @Override
-                protected Void doInBackground() throws Exception {
-                    int max = Integer.parseInt(counter.getText());
-                    System.out.println(max);
-                    progressBar1.setMinimum(0);
-                    progressBar1.setMaximum(max);
-                    for (int i = 0; i < max; i++) {
-                        progressBar1.setValue(i+1);
+                double q = Double.parseDouble(a);
+                double w = Double.parseDouble(b);
+                double r = Double.parseDouble(c);
+                double t = Double.parseDouble(d);
+                double y = Double.parseDouble(f);
+            if ((q+w+r+t+y)==1){
+                SwingWorker<Void, Void> swingWorker = new SwingWorker<Void, Void>(){
+
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        int max = Integer.parseInt(counter.getText());
+                        System.out.println(max);
+                        progressBar1.setMinimum(0);
+                        progressBar1.setMaximum(max);
+                        for (int i = 0; i < max; i++) {
+                            progressBar1.setValue(i+1);
+                        }
+
+                        return null;
                     }
-                    return null;
-                }
-            };
-            swingWorker.execute();
+                };
+                swingWorker.execute();
+            }else{
+               JOptionPane.showMessageDialog(points,"Сумма вероятностей должна ровняться единице!","Warning",JOptionPane.ERROR_MESSAGE);
+            }
+
         }
     }
 }
