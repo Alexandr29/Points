@@ -15,11 +15,16 @@ public class MainFrameController {
     private JFormattedTextField chanceLeft;
     private JFormattedTextField chanceRight;
     private JFormattedTextField chanceStop;
-    private JButton startButton;
     private JProgressBar progressBar1;
     private JFormattedTextField counter;
     private JPanel topPanel;
     private JPanel downPanel;
+    private JFormattedTextField widthField;
+    private JFormattedTextField heightField;
+    private JFormattedTextField startXField;
+    private JFormattedTextField startYField;
+
+    private JButton startButton;
 
     //Constructor
     public MainFrameController() {
@@ -47,6 +52,13 @@ public class MainFrameController {
         counter.addMouseListener(new ChanceAdapter());
         counter.addKeyListener(new MyKeyAdapter());
 
+        //leftPanel
+        widthField.addKeyListener(new LeftPanelFieldsAdapters());
+        heightField.addKeyListener(new LeftPanelFieldsAdapters());
+        startXField.addKeyListener(new LeftPanelFieldsAdapters());
+        startYField.addKeyListener(new LeftPanelFieldsAdapters());
+
+
         startButton.addActionListener(new StartProgressBarListener());
     }
 
@@ -61,6 +73,11 @@ public class MainFrameController {
         counter = points.getCounter();
         topPanel = points.getTopPanel();
         downPanel = points.getDownPanel();
+        //leftPanel
+        widthField = points.getWidthField();
+        heightField = points.getHeightField();
+        startXField = points.getStartXField();
+        startYField = points.getStartYField();
     }
 
     //setVisibleTrue
@@ -69,7 +86,6 @@ public class MainFrameController {
         points.setVisible(true);
     }
     //Adapters
-
     private class ChanceAdapter extends MouseAdapter {
 
         @Override
@@ -86,12 +102,9 @@ public class MainFrameController {
                         double res = (1 - (a + b + c + d));
                         double newDouble = new BigDecimal(res).setScale(3, RoundingMode.HALF_UP).doubleValue();
 
-                        //System.out.println(newDouble);
-
                         JFormattedTextField jTextField = (JFormattedTextField) e.getSource();
                         jTextField.setText(String.valueOf(newDouble));
                     }
-
                 }
             }
         }
@@ -106,6 +119,14 @@ public class MainFrameController {
     }
 
     private class MyKeyAdapter extends KeyAdapter {
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+            char input = e.getKeyChar();
+            if ((input<'0' || input > '9') && input !='\b' &&input !='.'){
+                e.consume();
+            }
+        }
 
         @Override
         public void keyPressed(KeyEvent e) {
@@ -156,7 +177,6 @@ public class MainFrameController {
       //      }
        //}
     }
-
     //Listeners
     private class StartProgressBarListener implements ActionListener {
 
@@ -196,5 +216,9 @@ public class MainFrameController {
             }
 
         }
+    }
+
+    private class LeftPanelFieldsAdapters extends KeyAdapter {
+
     }
 }

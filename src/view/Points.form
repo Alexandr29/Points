@@ -222,7 +222,7 @@
               <text value="Width"/>
             </properties>
           </component>
-          <component id="99404" class="javax.swing.JFormattedTextField" binding="formattedTextField1" default-binding="true">
+          <component id="99404" class="javax.swing.JFormattedTextField" binding="widthField">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -232,6 +232,7 @@
             <properties>
               <columns value="5"/>
               <font size="20"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="ddbbb" class="javax.swing.JLabel">
@@ -245,7 +246,7 @@
               <text value="Height"/>
             </properties>
           </component>
-          <component id="b876b" class="javax.swing.JFormattedTextField" binding="formattedTextField2" default-binding="true">
+          <component id="b876b" class="javax.swing.JFormattedTextField" binding="heightField">
             <constraints>
               <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -268,7 +269,7 @@
               <text value="Start X"/>
             </properties>
           </component>
-          <component id="53979" class="javax.swing.JFormattedTextField" binding="formattedTextField3" default-binding="true">
+          <component id="53979" class="javax.swing.JFormattedTextField" binding="startXField">
             <constraints>
               <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -291,7 +292,7 @@
               <text value="Start Y"/>
             </properties>
           </component>
-          <component id="8a81b" class="javax.swing.JFormattedTextField" binding="formattedTextField4" default-binding="true">
+          <component id="8a81b" class="javax.swing.JFormattedTextField" binding="startYField">
             <constraints>
               <grid row="14" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>

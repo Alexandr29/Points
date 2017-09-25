@@ -13,10 +13,10 @@ public class Points extends JFrame {
     private JButton startButton;
     private JProgressBar progressBar1;
     private JFormattedTextField counter;
-    private JFormattedTextField formattedTextField1;
-    private JFormattedTextField formattedTextField2;
-    private JFormattedTextField formattedTextField3;
-    private JFormattedTextField formattedTextField4;
+    private JFormattedTextField widthField;
+    private JFormattedTextField heightField;
+    private JFormattedTextField startXField;
+    private JFormattedTextField startYField;
     private JPanel leftPanel;
 
     //Constructor
@@ -70,4 +70,22 @@ public class Points extends JFrame {
         return downPanel;
     }
 
+    //leftPanel
+
+
+    public JFormattedTextField getWidthField() {
+        return widthField;
+    }
+
+    public JFormattedTextField getHeightField() {
+        return heightField;
+    }
+
+    public JFormattedTextField getStartXField() {
+        return startXField;
+    }
+
+    public JFormattedTextField getStartYField() {
+        return startYField;
+    }
 }
