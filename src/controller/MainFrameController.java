@@ -7,6 +7,7 @@ import java.awt.event.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
+import java.util.Random;
 
 public class MainFrameController {
     private Points points;
@@ -90,7 +91,6 @@ public class MainFrameController {
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            System.out.println("Mouse clicked");
             if (chanceStop.getText().equals("")) {
                 if ((!Objects.equals(chanceUp.getText(), "")) & (!Objects.equals(chanceDown.getText(), "")) & (!Objects.equals(chanceLeft.getText(), "")) & (!Objects.equals(chanceRight.getText(), ""))) {
                     double d = Double.parseDouble(chanceUp.getText());
@@ -154,11 +154,7 @@ public class MainFrameController {
                if (y>=0 & y<=1){
                    double res = (q + w + r + t + y);
                    double newDouble = new BigDecimal(res).setScale(3, RoundingMode.HALF_UP).doubleValue();
-
-                   System.out.println("Я тут");
-                   System.out.println(newDouble);
                    if (newDouble == 1){
-                       System.out.println(newDouble == 1);
                        startButton.setEnabled(true);
                    }
                }
@@ -182,30 +178,84 @@ public class MainFrameController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            String a = chanceUp.getText();
-            String b = chanceDown.getText();
-            String c = chanceLeft.getText();
-            String d = chanceRight.getText();
-            String f = chanceStop.getText();
-            String g = counter.getText();
 
-                double q = Double.parseDouble(a);
-                double w = Double.parseDouble(b);
-                double r = Double.parseDouble(c);
-                double t = Double.parseDouble(d);
-                double y = Double.parseDouble(f);
-            if ((q+w+r+t+y)==1){
+            String stringChanceUp = chanceUp.getText();
+            String stringChanceDown = chanceDown.getText();
+            String stringChanceLeft = chanceLeft.getText();
+            String stringChanceRight = chanceRight.getText();
+            String stringChanceStop = chanceStop.getText();
+            String stringCounter = counter.getText();
+
+                float doubleChanceUp = Float.parseFloat(stringChanceUp);
+                float doubleChanceDown = Float.parseFloat(stringChanceDown);
+                float doubleChanceLeft = Float.parseFloat(stringChanceLeft);
+                float doubleChanceRight = Float.parseFloat(stringChanceRight);
+                float doubleChanceStop = Float.parseFloat(stringChanceStop);
+
+
+               // double doubleChanceUp = Double.parseDouble(stringChanceUp);
+               // double doubleChanceDown = Double.parseDouble(stringChanceDown);
+                //double doubleChanceLeft = Double.parseDouble(stringChanceLeft);
+                //double doubleChanceRight = Double.parseDouble(stringChanceRight);
+               // double doubleChanceStop = Double.parseDouble(stringChanceStop);
+            double res = (doubleChanceUp + doubleChanceDown + doubleChanceLeft + doubleChanceRight + doubleChanceStop);
+            double newDouble = new BigDecimal(res).setScale(3, RoundingMode.HALF_UP).doubleValue();
+            System.out.println(newDouble);
+            if ((newDouble)==1){
                 SwingWorker<Void, Void> swingWorker = new SwingWorker<Void, Void>(){
+
+                    public int stop = 0;
+                    public int up = 0;
+                    public int down = 0;
+                    public int left = 0;
+                    public int right = 0;
 
                     @Override
                     protected Void doInBackground() throws Exception {
+
+                        float toStop =  0 + doubleChanceStop;
+                        float toUp =  toStop + doubleChanceUp;
+                        float toDown = toUp + doubleChanceDown;
+                        float toLeft = toDown + doubleChanceLeft;
+                        float toRight = toLeft + doubleChanceRight;
+
+                        //System.out.println("toStop: " +"[0] "+ toStop);
+                        //System.out.println("toUp: " + "["+toStop +"] " + "[" + toUp +"]");
+                        //System.out.println("toDown: " + "["+toUp +"] " + "[" + toDown +"]");
+                        //System.out.println("toLeft: " + "["+toDown +"] " + "[" + toLeft +"]");
+                        //System.out.println("toRight: " + "["+toLeft +"] " + "[" + toRight +"]");
+
+
                         int max = Integer.parseInt(counter.getText());
-                        System.out.println(max);
                         progressBar1.setMinimum(0);
                         progressBar1.setMaximum(max);
+                       // for (int i = 0; i < max; i++) {
+                        //    progressBar1.setValue(i+1);
+                        //}
+
                         for (int i = 0; i < max; i++) {
+                            double random = Math.random();
+                            System.out.println(random);
+
+                            if (random >=0 && random<toStop){
+                                stop++;
+                            }else if (random<toUp){
+                                up++;
+                            }else if(random<toDown){
+                                down++;
+                            }else if(random<toLeft){
+                                left++;
+                            }else if (random<toRight)
+                                right++;
                             progressBar1.setValue(i+1);
                         }
+
+                        System.out.println("stop: "+ stop +
+                                            ";  up: " + up +
+                                            ";  down: " + down +
+                                            ";  left: " + left +
+                                            ";  right: " + right);
+
 
                         return null;
                     }
