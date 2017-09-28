@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.Points">
   <grid id="27dc6" binding="mainPanel" layout-manager="BorderLayout" hgap="1" vgap="1">
     <constraints>
-      <xy x="20" y="20" width="734" height="571"/>
+      <xy x="20" y="20" width="993" height="729"/>
     </constraints>
     <properties>
       <alignmentX value="0.5"/>
@@ -328,6 +328,12 @@
               <text value=""/>
             </properties>
           </component>
+          <vspacer id="95961">
+            <constraints>
+              <grid row="20" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <forms defaultalign-vert="false"/>
+            </constraints>
+          </vspacer>
           <component id="e4417" class="javax.swing.JButton" binding="startButton">
             <constraints>
               <grid row="22" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
@@ -340,12 +346,6 @@
               <text value="Start"/>
             </properties>
           </component>
-          <vspacer id="95961">
-            <constraints>
-              <grid row="20" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-              <forms defaultalign-vert="false"/>
-            </constraints>
-          </vspacer>
         </children>
       </grid>
     </children>

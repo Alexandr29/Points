@@ -7,7 +7,6 @@ import java.awt.event.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
-import java.util.Random;
 
 public class MainFrameController {
     private Points points;
@@ -26,6 +25,7 @@ public class MainFrameController {
     private JFormattedTextField startYField;
 
     private JButton startButton;
+    private boolean metka;
 
     //Constructor
     public MainFrameController() {
@@ -58,7 +58,6 @@ public class MainFrameController {
         heightField.addKeyListener(new LeftPanelFieldsAdapters());
         startXField.addKeyListener(new LeftPanelFieldsAdapters());
         startYField.addKeyListener(new LeftPanelFieldsAdapters());
-
 
         startButton.addActionListener(new StartProgressBarListener());
     }
@@ -191,6 +190,7 @@ public class MainFrameController {
                 float doubleChanceLeft = Float.parseFloat(stringChanceLeft);
                 float doubleChanceRight = Float.parseFloat(stringChanceRight);
                 float doubleChanceStop = Float.parseFloat(stringChanceStop);
+                int intCounter = Integer.parseInt(stringCounter);
 
 
                // double doubleChanceUp = Double.parseDouble(stringChanceUp);
@@ -212,6 +212,17 @@ public class MainFrameController {
 
                     @Override
                     protected Void doInBackground() throws Exception {
+                        int width = Integer.parseInt(widthField.getText());
+                        int height = Integer.parseInt(heightField.getText());
+
+                        int xPoint = Integer.parseInt(startXField.getText());
+                        int yPoint = Integer.parseInt(startYField.getText());
+
+
+
+                        //System.out.println(width +" " + height +" "+ xPoint +" "+ yPoint);
+
+                        //System.out.println();
 
                         float toStop =  0 + doubleChanceStop;
                         float toUp =  toStop + doubleChanceUp;
@@ -233,29 +244,44 @@ public class MainFrameController {
                         //    progressBar1.setValue(i+1);
                         //}
 
+                        int upOut=0;
+                        int downOut=0;
+                        int leftOut=0;
+                        int rightOut=0;
                         for (int i = 0; i < max; i++) {
-                            double random = Math.random();
-                            System.out.println(random);
 
-                            if (random >=0 && random<toStop){
-                                stop++;
-                            }else if (random<toUp){
-                                up++;
-                            }else if(random<toDown){
-                                down++;
-                            }else if(random<toLeft){
-                                left++;
-                            }else if (random<toRight)
-                                right++;
-                            progressBar1.setValue(i+1);
+                            Point point = new Point(width,height,xPoint,yPoint);
+                            metka = true;
+
+
+                             while (metka == true){
+                                 double random = Math.random();
+
+                                 if (random >=0 && random<toStop){
+                                     stop++;
+                                 }else if (random<toUp){
+                                     point.moveUp();
+                                 }else if(random<toDown){
+                                     point.moveDown();
+                                 }else if(random<toLeft){
+                                     point.moveLeft();
+                                 }else if (random<toRight)
+                                     point.moveRight();
+                                 progressBar1.setValue(i+1);
+
+                             }
+                            if (point.upBorderCoord  == 1){
+                                upOut++;
+                            }else if (point.downBorderCoord == 1){
+                                downOut++;
+                            }else if (point.leftBorderCoord == 1){
+                                leftOut++;
+                            }else if(point.rightBorderCoord == 1){
+                                rightOut++;
+                            }
+
                         }
-
-                        System.out.println("stop: "+ stop +
-                                            ";  up: " + up +
-                                            ";  down: " + down +
-                                            ";  left: " + left +
-                                            ";  right: " + right);
-
+                        System.out.println("Вверх: " + upOut+ "; Вниз: " + downOut + "; Влево: " + leftOut + "; Вправо: " + rightOut + ":");
 
                         return null;
                     }
@@ -268,7 +294,83 @@ public class MainFrameController {
         }
     }
 
-    private class LeftPanelFieldsAdapters extends KeyAdapter {
+    private class Point{
+        private int width;
+        private int height;
 
+        private int xPoint;
+        private int yPoint;
+
+        private int upBorderCoord;
+        private int downBorderCoord;
+        private int leftBorderCoord;
+        private int rightBorderCoord;
+
+
+        public Point(int width, int height, int xPoint, int yPoint) {
+            this.width = width;
+            this.height = height;
+            this.xPoint = xPoint;
+            this.yPoint = yPoint;
+        }
+
+        public void moveUp(){
+
+            if (yPoint == height){
+                upBorderCoord = 1;
+                //System.out.println("Вышло вверх");
+                //System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
+                metka = false;
+            }else {
+                //System.out.println("UP");
+                yPoint++;
+            }
+
+        }
+        public void moveDown(){
+            if (yPoint == 0){
+                downBorderCoord = 1;
+                //System.out.println("Вышло вниз");
+                //System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
+                metka = false;
+            }else {
+                //System.out.println("DOWN");
+                yPoint--;
+            }
+        }
+        public void moveLeft(){
+            if (xPoint == 0){
+                leftBorderCoord = 1;
+                //System.out.println("Вышло влево");
+                //System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
+                metka = false;
+            }else {
+                //System.out.println("LEFT");
+                xPoint--;
+            }
+        }
+        public void  moveRight(){
+            if (xPoint == width){
+                rightBorderCoord = 1;
+                //System.out.println("Вышло вправо");
+                //System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
+                metka = false;
+
+            }else {
+                //System.out.println("RIGHT");
+                xPoint++;
+            }
+        }
+    }
+
+    private class LeftPanelFieldsAdapters extends KeyAdapter {
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+            char input = e.getKeyChar();
+            if ((input < '0' || input > '9') && input != '\b' && input != '.') {
+                e.consume();
+            }
+        }
     }
 }
