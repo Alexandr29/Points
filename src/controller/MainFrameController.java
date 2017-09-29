@@ -1,14 +1,17 @@
 package controller;
 
+import chart.MyLineChart;
 import view.Points;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
 public class MainFrameController {
+    private MyLineChart myLineChart;
     private Points points;
     private JFormattedTextField chanceUp;
     private JFormattedTextField chanceDown;
@@ -17,6 +20,7 @@ public class MainFrameController {
     private JFormattedTextField chanceStop;
     private JProgressBar progressBar1;
     private JFormattedTextField counter;
+    private JPanel mainPanel;
     private JPanel topPanel;
     private JPanel downPanel;
     private JFormattedTextField widthField;
@@ -25,6 +29,7 @@ public class MainFrameController {
     private JFormattedTextField startYField;
     private JButton startButton;
     private boolean metka;
+    private int buttonPressed = 0;
 
     //Constructor
     public MainFrameController() {
@@ -77,6 +82,8 @@ public class MainFrameController {
         heightField = points.getHeightField();
         startXField = points.getStartXField();
         startYField = points.getStartYField();
+        myLineChart = new MyLineChart();
+        mainPanel = points.getMainPanel();
     }
 
     //setVisibleTrue
@@ -313,9 +320,17 @@ public class MainFrameController {
 
 
                         }
+                        if (buttonPressed>0){
+                            myLineChart.removeAll();
+                        }
                         System.out.println("Вверх: " + upOut+ "; Вниз: " + downOut + "; Влево: " + leftOut + "; Вправо: " + rightOut + ";");
 
+                        myLineChart.createChart("new","title",arrTopOut,arrDownOut,arrLeftOut,arrRightOut);
+                        mainPanel.add(myLineChart, BorderLayout.CENTER);
+                        mainPanel.revalidate();
+                        buttonPressed++;
                         return null;
+
                     }
                 };
                 swingWorker.execute();
@@ -359,7 +374,7 @@ public class MainFrameController {
         public void moveDown(){
            yPoint--;
            System.out.println("Down");
-           if (yPoint == 0){
+           if (yPoint < 0){
                downBorderCoord = 1;
                System.out.println("Вышло вниз");
                System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
@@ -369,7 +384,7 @@ public class MainFrameController {
         public void moveLeft(){
             xPoint--;
             System.out.println("Left");
-            if (xPoint == 0){
+            if (xPoint < 0){
                 leftBorderCoord = 1;
                 System.out.println("Вышло влево");
                 System.out.println("x:  " + xPoint + ".  y:  " + yPoint);

@@ -88,4 +88,8 @@ public class Points extends JFrame {
     public JFormattedTextField getStartYField() {
         return startYField;
     }
+
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
 }
