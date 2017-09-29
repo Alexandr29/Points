@@ -23,7 +23,6 @@ public class MainFrameController {
     private JFormattedTextField heightField;
     private JFormattedTextField startXField;
     private JFormattedTextField startYField;
-
     private JButton startButton;
     private boolean metka;
 
@@ -117,6 +116,17 @@ public class MainFrameController {
         }
     }
 
+    private class LeftPanelFieldsAdapters extends KeyAdapter {
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+            char input = e.getKeyChar();
+            if ((input < '0' || input > '9') && input != '\b' && input != '.') {
+                e.consume();
+            }
+        }
+    }
+
     private class MyKeyAdapter extends KeyAdapter {
         @Override
         public void keyTyped(KeyEvent e) {
@@ -192,7 +202,6 @@ public class MainFrameController {
                 float doubleChanceStop = Float.parseFloat(stringChanceStop);
                 int intCounter = Integer.parseInt(stringCounter);
 
-
                // double doubleChanceUp = Double.parseDouble(stringChanceUp);
                // double doubleChanceDown = Double.parseDouble(stringChanceDown);
                 //double doubleChanceLeft = Double.parseDouble(stringChanceLeft);
@@ -219,11 +228,6 @@ public class MainFrameController {
                         int yPoint = Integer.parseInt(startYField.getText());
 
 
-
-                        //System.out.println(width +" " + height +" "+ xPoint +" "+ yPoint);
-
-                        //System.out.println();
-
                         float toStop =  0 + doubleChanceStop;
                         float toUp =  toStop + doubleChanceUp;
                         float toDown = toUp + doubleChanceDown;
@@ -248,6 +252,12 @@ public class MainFrameController {
                         int downOut=0;
                         int leftOut=0;
                         int rightOut=0;
+
+                        int arrTopOut[] = new int[width];
+                        int arrDownOut[] = new int[width];
+                        int arrLeftOut[] = new int[height];
+                        int arrRightOut[] = new int[height];
+
                         for (int i = 0; i < max; i++) {
 
                             Point point = new Point(width,height,xPoint,yPoint);
@@ -272,16 +282,38 @@ public class MainFrameController {
                              }
                             if (point.upBorderCoord  == 1){
                                 upOut++;
+                                arrTopOut[point.xPoint]++;
                             }else if (point.downBorderCoord == 1){
                                 downOut++;
+                                arrDownOut[point.xPoint]++;
                             }else if (point.leftBorderCoord == 1){
                                 leftOut++;
+                                arrLeftOut[point.yPoint]++;
                             }else if(point.rightBorderCoord == 1){
                                 rightOut++;
+                                arrRightOut[point.yPoint]++;
                             }
 
+                            for (int j = 0; j < width; j++) {
+                                System.out.print("arrTopOut[" +j +"]" + " " + arrTopOut[j]+ "; ");
+                            }
+                            System.out.println();
+                            for (int j = 0; j < width; j++) {
+                                System.out.print("arrDownOut[" +j +"]" + " " + arrDownOut[j]+ "; ");
+                            }
+                            System.out.println();
+                            for (int j = 0; j < height; j++) {
+                                System.out.print("arrLeftOut[" +j +"]" + " " + arrLeftOut[j]+ "; ");
+                            }
+                            System.out.println();
+                            for (int j = 0; j < height; j++) {
+                                System.out.print("arrRightOut[" +j +"]" + " " + arrRightOut[j]+ "; ");
+                            }
+                            System.out.println();
+
+
                         }
-                        System.out.println("Вверх: " + upOut+ "; Вниз: " + downOut + "; Влево: " + leftOut + "; Вправо: " + rightOut + ":");
+                        System.out.println("Вверх: " + upOut+ "; Вниз: " + downOut + "; Влево: " + leftOut + "; Вправо: " + rightOut + ";");
 
                         return null;
                     }
@@ -295,6 +327,7 @@ public class MainFrameController {
     }
 
     private class Point{
+
         private int width;
         private int height;
 
@@ -306,7 +339,6 @@ public class MainFrameController {
         private int leftBorderCoord;
         private int rightBorderCoord;
 
-
         public Point(int width, int height, int xPoint, int yPoint) {
             this.width = width;
             this.height = height;
@@ -315,62 +347,48 @@ public class MainFrameController {
         }
 
         public void moveUp(){
-
-            if (yPoint == height){
-                upBorderCoord = 1;
-                //System.out.println("Вышло вверх");
-                //System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
-                metka = false;
-            }else {
-                //System.out.println("UP");
-                yPoint++;
-            }
-
-        }
+           yPoint++;
+           System.out.println("Up");
+           if (yPoint == height){
+               upBorderCoord = 1;
+               System.out.println("Вышло вверх");
+               System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
+               metka = false;
+           }
+       }
         public void moveDown(){
-            if (yPoint == 0){
-                downBorderCoord = 1;
-                //System.out.println("Вышло вниз");
-                //System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
-                metka = false;
-            }else {
-                //System.out.println("DOWN");
-                yPoint--;
-            }
-        }
+           yPoint--;
+           System.out.println("Down");
+           if (yPoint == 0){
+               downBorderCoord = 1;
+               System.out.println("Вышло вниз");
+               System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
+               metka = false;
+           }
+       }
         public void moveLeft(){
+            xPoint--;
+            System.out.println("Left");
             if (xPoint == 0){
                 leftBorderCoord = 1;
-                //System.out.println("Вышло влево");
-                //System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
+                System.out.println("Вышло влево");
+                System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
                 metka = false;
-            }else {
-                //System.out.println("LEFT");
-                xPoint--;
             }
         }
-        public void  moveRight(){
-            if (xPoint == width){
+        public void moveRight() {
+            xPoint++;
+            System.out.println("Right");
+            if (xPoint == width) {
                 rightBorderCoord = 1;
-                //System.out.println("Вышло вправо");
-                //System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
+                System.out.println("Вышло вправо");
+                System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
                 metka = false;
-
-            }else {
-                //System.out.println("RIGHT");
-                xPoint++;
             }
         }
+
+
     }
 
-    private class LeftPanelFieldsAdapters extends KeyAdapter {
-        @Override
-        public void keyTyped(KeyEvent e) {
 
-            char input = e.getKeyChar();
-            if ((input < '0' || input > '9') && input != '\b' && input != '.') {
-                e.consume();
-            }
-        }
-    }
 }
