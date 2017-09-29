@@ -18,6 +18,11 @@ public class Points extends JFrame {
     private JFormattedTextField startXField;
     private JFormattedTextField startYField;
     private JPanel leftPanel;
+    private JPanel centralPanel;
+
+    public JPanel getCentralPanel() {
+        return centralPanel;
+    }
 
     //Constructor
     public Points() {

@@ -30,6 +30,7 @@ public class MainFrameController {
     private JButton startButton;
     private boolean metka;
     private int buttonPressed = 0;
+    private JPanel centralPanel;
 
     //Constructor
     public MainFrameController() {
@@ -84,6 +85,8 @@ public class MainFrameController {
         startYField = points.getStartYField();
         myLineChart = new MyLineChart();
         mainPanel = points.getMainPanel();
+        centralPanel = points.getCentralPanel();
+
     }
 
     //setVisibleTrue
@@ -300,33 +303,19 @@ public class MainFrameController {
                                 rightOut++;
                                 arrRightOut[point.yPoint]++;
                             }
-
-                            for (int j = 0; j < width; j++) {
-                                System.out.print("arrTopOut[" +j +"]" + " " + arrTopOut[j]+ "; ");
-                            }
-                            System.out.println();
-                            for (int j = 0; j < width; j++) {
-                                System.out.print("arrDownOut[" +j +"]" + " " + arrDownOut[j]+ "; ");
-                            }
-                            System.out.println();
-                            for (int j = 0; j < height; j++) {
-                                System.out.print("arrLeftOut[" +j +"]" + " " + arrLeftOut[j]+ "; ");
-                            }
-                            System.out.println();
-                            for (int j = 0; j < height; j++) {
-                                System.out.print("arrRightOut[" +j +"]" + " " + arrRightOut[j]+ "; ");
-                            }
-                            System.out.println();
+                            //System.out.println();
 
 
                         }
                         if (buttonPressed>0){
                             myLineChart.removeAll();
                         }
-                        System.out.println("Вверх: " + upOut+ "; Вниз: " + downOut + "; Влево: " + leftOut + "; Вправо: " + rightOut + ";");
+                        //System.out.println("Вверх: " + upOut+ "; Вниз: " + downOut + "; Влево: " + leftOut + "; Вправо: " + rightOut + ";");
 
-                        myLineChart.createChart("new","title",arrTopOut,arrDownOut,arrLeftOut,arrRightOut);
-                        mainPanel.add(myLineChart, BorderLayout.CENTER);
+                        myLineChart.createChart("График",arrTopOut,arrDownOut,arrLeftOut,arrRightOut);
+                        centralPanel.add(myLineChart,BorderLayout.WEST);
+                        centralPanel.setBackground(Color.green);
+                        mainPanel.add(centralPanel,BorderLayout.CENTER);
                         mainPanel.revalidate();
                         buttonPressed++;
                         return null;
@@ -363,41 +352,41 @@ public class MainFrameController {
 
         public void moveUp(){
            yPoint++;
-           System.out.println("Up");
+           //System.out.println("Up");
            if (yPoint == height){
                upBorderCoord = 1;
-               System.out.println("Вышло вверх");
-               System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
+               //System.out.println("Вышло вверх");
+               //System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
                metka = false;
            }
        }
         public void moveDown(){
            yPoint--;
-           System.out.println("Down");
+           //System.out.println("Down");
            if (yPoint < 0){
                downBorderCoord = 1;
-               System.out.println("Вышло вниз");
-               System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
+               //System.out.println("Вышло вниз");
+               //System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
                metka = false;
            }
        }
         public void moveLeft(){
             xPoint--;
-            System.out.println("Left");
+            //System.out.println("Left");
             if (xPoint < 0){
                 leftBorderCoord = 1;
-                System.out.println("Вышло влево");
-                System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
+                //System.out.println("Вышло влево");
+                //System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
                 metka = false;
             }
         }
         public void moveRight() {
             xPoint++;
-            System.out.println("Right");
+            //System.out.println("Right");
             if (xPoint == width) {
                 rightBorderCoord = 1;
-                System.out.println("Вышло вправо");
-                System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
+               // System.out.println("Вышло вправо");
+                //System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
                 metka = false;
             }
         }
