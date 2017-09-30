@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="orsoncharts-1.6-swing-demo">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/orsoncharts-1.6-swing-demo.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

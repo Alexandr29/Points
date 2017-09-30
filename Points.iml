@@ -13,5 +13,8 @@
     <orderEntry type="library" name="jfreechart-1.0.19" level="project" />
     <orderEntry type="library" name="jzy3d-api-1.0.1" level="project" />
     <orderEntry type="library" name="jzy3d-api-1.0.1-maths-io" level="project" />
+    <orderEntry type="library" name="orsoncharts-1.6" level="project" />
+    <orderEntry type="library" name="orsonpdf-1.7" level="project" />
+    <orderEntry type="library" name="orsoncharts-1.6-swing-demo" level="project" />
   </component>
 </module>
