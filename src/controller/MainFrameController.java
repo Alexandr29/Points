@@ -1,6 +1,7 @@
 package controller;
 
 import chart.MyLineChart;
+import chart3D.Chart3D;
 import view.Points;
 
 import javax.swing.*;
@@ -13,6 +14,7 @@ import java.util.Objects;
 public class MainFrameController {
     private MyLineChart myLineChart;
     private Points points;
+    private Chart3D chart3D;
     private JFormattedTextField chanceUp;
     private JFormattedTextField chanceDown;
     private JFormattedTextField chanceLeft;
@@ -31,6 +33,8 @@ public class MainFrameController {
     private boolean metka;
     private int buttonPressed = 0;
     private JPanel centralPanel;
+    private JPanel panel3D;
+    private JPanel panelInfo;
 
     //Constructor
     public MainFrameController() {
@@ -86,7 +90,22 @@ public class MainFrameController {
         myLineChart = new MyLineChart();
         mainPanel = points.getMainPanel();
         centralPanel = points.getCentralPanel();
+        panelInfo = points.getPanelInfo();
 
+
+    }
+
+    public void testing(){
+        chanceUp.setText(String.valueOf(0.24));
+        chanceDown.setText(String.valueOf(0.24));
+        chanceLeft.setText(String.valueOf(0.24));
+        chanceRight.setText(String.valueOf(0.24));
+        chanceStop.setText(String.valueOf(0.04));
+        widthField.setText(String.valueOf(11));
+        heightField.setText(String.valueOf(11));
+        startXField.setText(String.valueOf(5));
+        startYField.setText(String.valueOf(5));
+        counter.setText(String.valueOf(10));
     }
 
     //setVisibleTrue
@@ -173,9 +192,9 @@ public class MainFrameController {
                if (y>=0 & y<=1){
                    double res = (q + w + r + t + y);
                    double newDouble = new BigDecimal(res).setScale(3, RoundingMode.HALF_UP).doubleValue();
-                   if (newDouble == 1){
+                   /*if (newDouble == 1){
                        startButton.setEnabled(true);
-                   }
+                   }*/
                }
 
 
@@ -268,7 +287,13 @@ public class MainFrameController {
                         int arrLeftOut[] = new int[height];
                         int arrRightOut[] = new int[height];
 
+                        int stopX[] = new int[width];
+                        int stopY[] = new int[height];
+
+                        int xy[][] = new int[width][height];
+
                         for (int i = 0; i < max; i++) {
+
 
                             Point point = new Point(width,height,xPoint,yPoint);
                             metka = true;
@@ -278,7 +303,10 @@ public class MainFrameController {
                                  double random = Math.random();
 
                                  if (random >=0 && random<toStop){
-                                     stop++;
+                                     stopX[point.toStopX]++;
+                                     stopY[point.toStopY]++;
+                                     xy[point.toStopX][point.toStopY]++;
+                                     break;
                                  }else if (random<toUp){
                                      point.moveUp();
                                  }else if(random<toDown){
@@ -303,21 +331,37 @@ public class MainFrameController {
                                 rightOut++;
                                 arrRightOut[point.yPoint]++;
                             }
-                            //System.out.println();
 
 
                         }
+
                         if (buttonPressed>0){
                             myLineChart.removeAll();
+                            chart3D.removeAll();
                         }
                         //System.out.println("Вверх: " + upOut+ "; Вниз: " + downOut + "; Влево: " + leftOut + "; Вправо: " + rightOut + ";");
 
                         myLineChart.createChart("График",arrTopOut,arrDownOut,arrLeftOut,arrRightOut);
+                        panelInfo.setBackground(Color.blue);
+                        centralPanel.add(panelInfo,BorderLayout.SOUTH);
+                        chart3D = new Chart3D(width,height,xy);
+                        //centralPanel.revalidate();
+                        centralPanel.repaint();
+
+                        centralPanel.add(chart3D,BorderLayout.CENTER);
                         centralPanel.add(myLineChart,BorderLayout.WEST);
                         centralPanel.setBackground(Color.green);
                         mainPanel.add(centralPanel,BorderLayout.CENTER);
                         mainPanel.revalidate();
                         buttonPressed++;
+
+                        for (int i = 0; i < width; i++) {
+                            for (int j = 0; j < height; j++) {
+                                System.out.print(xy[i][j] + " ");
+                            }
+                            System.out.println();
+                        }
+
                         return null;
 
                     }
@@ -338,6 +382,9 @@ public class MainFrameController {
         private int xPoint;
         private int yPoint;
 
+        private int toStopX;
+        private int toStopY;
+
         private int upBorderCoord;
         private int downBorderCoord;
         private int leftBorderCoord;
@@ -348,10 +395,14 @@ public class MainFrameController {
             this.height = height;
             this.xPoint = xPoint;
             this.yPoint = yPoint;
+            toStopX = xPoint;
+            toStopY = yPoint;
         }
 
         public void moveUp(){
            yPoint++;
+           toStopY=yPoint;
+
            //System.out.println("Up");
            if (yPoint == height){
                upBorderCoord = 1;
@@ -362,6 +413,7 @@ public class MainFrameController {
        }
         public void moveDown(){
            yPoint--;
+           toStopY=yPoint;
            //System.out.println("Down");
            if (yPoint < 0){
                downBorderCoord = 1;
@@ -372,6 +424,7 @@ public class MainFrameController {
        }
         public void moveLeft(){
             xPoint--;
+            toStopX = xPoint;
             //System.out.println("Left");
             if (xPoint < 0){
                 leftBorderCoord = 1;
@@ -382,6 +435,7 @@ public class MainFrameController {
         }
         public void moveRight() {
             xPoint++;
+            toStopX = xPoint;
             //System.out.println("Right");
             if (xPoint == width) {
                 rightBorderCoord = 1;

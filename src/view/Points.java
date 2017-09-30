@@ -19,6 +19,12 @@ public class Points extends JFrame {
     private JFormattedTextField startYField;
     private JPanel leftPanel;
     private JPanel centralPanel;
+    private JPanel panelInfo;
+
+    public JPanel getPanelInfo() {
+        return panelInfo;
+    }
+
 
     public JPanel getCentralPanel() {
         return centralPanel;
@@ -54,7 +60,6 @@ public class Points extends JFrame {
     }
 
     public JButton getStartButton() {
-        startButton.setEnabled(false);
         return startButton;
     }
 

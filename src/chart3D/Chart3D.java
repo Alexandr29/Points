@@ -17,17 +17,10 @@ import com.orsoncharts.graphics3d.swing.DisplayPanel3D;
  * A demo of a 3D bar chart.
  */
 @SuppressWarnings("serial")
-    public class Chart3D extends JFrame {
+    public class Chart3D extends JPanel {
 
-    /**
-     * Creates a new test app.
-     *
-     * @param title  the frame title.
-     */
-    public Chart3D(String title) {
-        super(title);
-        addWindowListener(new ExitOnClose());
-        getContentPane().add(createDemoPanel());
+    public Chart3D(int x, int y, int[][] xy) {
+        add(createDemoPanel(x,y,xy));
     }
 
     /**
@@ -37,10 +30,10 @@ import com.orsoncharts.graphics3d.swing.DisplayPanel3D;
      *
      * @return A panel containing the content for the demo.
      */
-    public static JPanel createDemoPanel() {
+    public static JPanel createDemoPanel(int x, int y, int[][] xy) {
         DemoPanel content = new DemoPanel(new BorderLayout());
         content.setPreferredSize(OrsonChartsDemo.DEFAULT_CONTENT_SIZE);
-        CategoryDataset3D dataset = MyChart3D.createDataset();
+        CategoryDataset3D dataset = MyChart3D.createDataset(x,y,xy);
         com.orsoncharts.Chart3D chart = MyChart3D.createChart(dataset);
         Chart3DPanel chartPanel = new Chart3DPanel(chart);
         content.setChartPanel(chartPanel);
@@ -54,10 +47,5 @@ import com.orsoncharts.graphics3d.swing.DisplayPanel3D;
      *
      * @param args  command line arguments (ignored).
      */
-    public static void main(String[] args) {
-        Chart3D app = new Chart3D(
-                "OrsonCharts: Chart3D.java");
-        app.pack();
-        app.setVisible(true);
-    }
+
 }

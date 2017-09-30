@@ -15,13 +15,13 @@ import com.orsoncharts.legend.LegendAnchor;
 import com.orsoncharts.plot.CategoryPlot3D;
 import com.orsoncharts.util.Orientation;
 import com.orsonpdf.PDFHints;
-
-import javax.swing.*;
+import controller.MainFrameController;
 
 /**
  * 3D bar chart configuration for demo applications.
  */
 public class MyChart3D{
+
 
     /**
      * Creates a bar chart with the supplied dataset.
@@ -32,9 +32,8 @@ public class MyChart3D{
      */
     public static com.orsoncharts.Chart3D createChart(CategoryDataset3D dataset) {
         com.orsoncharts.Chart3D chart = Chart3DFactory.createBarChart(
-                "Average Maximum Temperature",
-                "http://www.worldclimateguide.co.uk/climateguides/", dataset,
-                null, null, "Temp °C");
+                "Координаты зависших точек",".", dataset,
+                null, null, "кол-во");
 
         // we use the following hint to render text as vector graphics
         // rather than text when exporting to PDF...otherwise the degree
@@ -67,10 +66,38 @@ public class MyChart3D{
      *
      * @return A sample dataset.
      */
-    public static CategoryDataset3D createDataset() {
+    public static CategoryDataset3D createDataset(int x, int y, int[][] xy) {
         StandardCategoryDataset3D dataset = new StandardCategoryDataset3D();
 
-        DefaultKeyedValues<String, Integer> s3 = new DefaultKeyedValues<>();
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                dataset.setValue(xy[i][j],"serial",i+1,j+1);
+            }
+        }
+
+        /*  for (int i = 0; i < x; i++) {
+
+            //DefaultKeyedValues<String, Integer> s = new DefaultKeyedValues<>();
+            //System.out.print(arr1[i] + ";   ");
+            for (int j = 0; j < y; j++) {
+                if (arr2[j]!=0){
+                    dataset.addValue(arr1[i],"series"+ i ,j+"строка (i)",j+"столбик(j)");
+                }else {
+                    dataset.addValue(0,"series"+ i ,i+"строка (i)",j+"столбик(j)");
+                }
+
+                //s.put(String.valueOf(i), arr1[i]);
+                //s.put(String.valueOf(arr2[j],j);
+                //dataset.addSeriesAsRow(j, s);
+            }
+        }*/
+
+
+
+
+        /*DefaultKeyedValues<String, Integer> s3 = new DefaultKeyedValues<>();
+
+
         s3.put("Jan", 77);
         s3.put("Feb", 7);
         s3.put("Mar", 10);
@@ -84,6 +111,7 @@ public class MyChart3D{
         s3.put("Nov", 10);
         s3.put("Dec", 8);
         dataset.addSeriesAsRow("London", s3);
+
 
         DefaultKeyedValues<String, Integer> s1 = new DefaultKeyedValues<>();
         s1.put("Jan", 3);
@@ -144,7 +172,7 @@ public class MyChart3D{
         s5.put("Oct", 15);
         s5.put("Nov", 17);
         s5.put("Dec", 19);
-        dataset.addSeriesAsRow("Wellington", s5);
+        dataset.addSeriesAsRow("Wellington", s5);*/
 
         return dataset;
     }
