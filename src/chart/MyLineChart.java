@@ -40,32 +40,25 @@ public class MyLineChart extends JPanel {
         setVisible(true);
     }
     private DefaultCategoryDataset createDataset(int a[], int b[] ) {
-        int array1[] = a;
-        int array2[] = b;
         String[] arr2 = new String[]{"Вышло вверх","Вышло вниз"};
-        final String speed = "Вверх/вниз";
         String[] textString = new String[a.length];
         for (int i = 0; i < textString.length; i++) {
             textString[i] = String.valueOf(i);
         }
         DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
-        Number number = array1[0];
         String s1 = arr2[0];
         String s2 = arr2[1];
         for (int i = 0; i <a.length ; i++) {
             //System.out.println(array1[i]);
-            dataset.addValue(array1[i],s1,textString[i]);
-            dataset.addValue(array2[i],s2,textString[i]);
+            dataset.addValue(a[i],s1,textString[i]);
+            dataset.addValue(b[i],s2,textString[i]);
         }
 
 
         return dataset;
     }
     private DefaultCategoryDataset createDataset2(int c[], int d[] ) {
-        int array3[] = c;
-        int array4[] = d;
         String[] arr2 = new String[]{"Вышло влево","Вышло вправо"};
-        final String speed = "Лево/право";
         String[] textString = new String[c.length];
         for (int i = 0; i < textString.length; i++) {
             textString[i] = String.valueOf(i);

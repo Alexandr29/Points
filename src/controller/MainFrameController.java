@@ -23,8 +23,6 @@ public class MainFrameController {
     private JProgressBar progressBar1;
     private JFormattedTextField counter;
     private JPanel mainPanel;
-    private JPanel topPanel;
-    private JPanel downPanel;
     private JFormattedTextField widthField;
     private JFormattedTextField heightField;
     private JFormattedTextField startXField;
@@ -33,12 +31,10 @@ public class MainFrameController {
     private boolean metka;
     private int buttonPressed = 0;
     private JPanel centralPanel;
-    private JPanel panel3D;
     private JPanel panelInfo;
     private JButton pauseButton;
     private JButton stopButton;
-    private SwingWorker<Void, Void> swingWorker;
-    int pausePlay = 3;
+    private int pausePlay = 3;
     private volatile boolean isPaused;
     private JLabel upLabel;
     private JLabel downLabel;
@@ -50,6 +46,7 @@ public class MainFrameController {
     private int leftOut = 0;
     private int rightOut = 0;
     private int stopOut = 0;
+    private long start;
 
     //Constructor
     public MainFrameController() {
@@ -83,7 +80,7 @@ public class MainFrameController {
         startXField.addKeyListener(new LeftPanelFieldsAdapters());
         startYField.addKeyListener(new LeftPanelFieldsAdapters());
 
-        startButton.addActionListener(new StartProgressBarListener());
+        startButton.addActionListener(new StartButtonListener());
         pauseButton.addActionListener(new PauseListener());
         stopButton.addActionListener(new StopListener());
     }
@@ -99,9 +96,7 @@ public class MainFrameController {
         startButton = points.getStartButton();
         progressBar1 = points.getProgressBar1();
         counter = points.getCounter();
-        topPanel = points.getTopPanel();
-        downPanel = points.getDownPanel();
-        //leftPanel
+
         widthField = points.getWidthField();
         heightField = points.getHeightField();
         startXField = points.getStartXField();
@@ -125,11 +120,11 @@ public class MainFrameController {
 
     }
 
-    public boolean isPaused() {
+    private boolean isPaused() {
         return isPaused;
     }
 
-    public void testing(){
+   private void testing(){
         chanceUp.setText(String.valueOf(0.24));
         chanceDown.setText(String.valueOf(0.24));
         chanceLeft.setText(String.valueOf(0.24));
@@ -139,8 +134,8 @@ public class MainFrameController {
         heightField.setText(String.valueOf(11));
         startXField.setText(String.valueOf(5));
         startYField.setText(String.valueOf(5));
-        counter.setText(String.valueOf(10_000_000));
-    }
+        counter.setText(String.valueOf(10_000_000));}
+
     //setVisibleTrue
     public void showMainFrame() {
         points.setLocationRelativeTo(null);
@@ -151,7 +146,7 @@ public class MainFrameController {
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            testing();
+            //testing();
             if (chanceStop.getText().equals("")) {
                 if ((!Objects.equals(chanceUp.getText(), "")) & (!Objects.equals(chanceDown.getText(), "")) & (!Objects.equals(chanceLeft.getText(), "")) & (!Objects.equals(chanceRight.getText(), ""))) {
                     double d = Double.parseDouble(chanceUp.getText());
@@ -167,14 +162,6 @@ public class MainFrameController {
                         jTextField.setText(String.valueOf(newDouble));
                     }
                 }
-            }
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-            JFormattedTextField jFormattedTextField = (JFormattedTextField) e.getSource();
-            if (jFormattedTextField.getText().equals("Up") | jFormattedTextField.getText().equals("Down") | jFormattedTextField.getText().equals("Left") | jFormattedTextField.getText().equals("Right") | jFormattedTextField.getText().equals("Stop") | jFormattedTextField.getText().equals("Counter")) {
-                jFormattedTextField.setText("");
             }
         }
     }
@@ -207,51 +194,16 @@ public class MainFrameController {
             if ((input<'0' || input > '9') && input !='\b' &&input !='.'){
                 e.consume();
             }
-
-           String a = chanceUp.getText();
-           String b = chanceDown.getText();
-           String c = chanceLeft.getText();
-           String d = chanceRight.getText();
-           String f = chanceStop.getText();
-           String g = counter.getText();
-
-           if (!Objects.equals(a, "") & !Objects.equals(b, "")& !Objects.equals(c, "") & !Objects.equals(d, "")& !Objects.equals(f, "") & !Objects.equals(g, "") ){
-               double q = Double.parseDouble(a);
-               double w = Double.parseDouble(b);
-               double r = Double.parseDouble(c);
-               double t = Double.parseDouble(d);
-               double y = Double.parseDouble(f);
-
-
-               if (y>=0 & y<=1){
-                   double res = (q + w + r + t + y);
-                   double newDouble = new BigDecimal(res).setScale(3, RoundingMode.HALF_UP).doubleValue();
-                   /*if (newDouble == 1){
-                       startButton.setEnabled(true);
-                   }*/
-               }
-
-
-
-
-
-           }
         }
-
-       // @Override
-       // public void keyPressed(KeyEvent e) {
-       //   if (chanceUp.getText().equals("Up")){
-      //          chanceUp.setText("");
-      //      }
-       //}
     }
     //Listeners
-    private class StartProgressBarListener implements ActionListener {
+    private class StartButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            start = System.currentTimeMillis();
 
-
+            testing();
             String stringChanceUp = chanceUp.getText();
             String stringChanceDown = chanceDown.getText();
             String stringChanceLeft = chanceLeft.getText();
@@ -259,111 +211,120 @@ public class MainFrameController {
             String stringChanceStop = chanceStop.getText();
             String stringCounter = counter.getText();
 
-                float doubleChanceUp = Float.parseFloat(stringChanceUp);
-                float doubleChanceDown = Float.parseFloat(stringChanceDown);
-                float doubleChanceLeft = Float.parseFloat(stringChanceLeft);
-                float doubleChanceRight = Float.parseFloat(stringChanceRight);
-                float doubleChanceStop = Float.parseFloat(stringChanceStop);
+                float floatChanceUp = Float.parseFloat(stringChanceUp);
+                float floatChanceDown = Float.parseFloat(stringChanceDown);
+                float floatChanceLeft = Float.parseFloat(stringChanceLeft);
+                float floatChanceRight = Float.parseFloat(stringChanceRight);
+                float floatChanceStop = Float.parseFloat(stringChanceStop);
                 int intCounter = Integer.parseInt(stringCounter);
 
 
-            double res = (doubleChanceUp + doubleChanceDown + doubleChanceLeft + doubleChanceRight + doubleChanceStop);
+            double res = (floatChanceUp + floatChanceDown + floatChanceLeft + floatChanceRight + floatChanceStop);
             double newDouble = new BigDecimal(res).setScale(3, RoundingMode.HALF_UP).doubleValue();
-            System.out.println(newDouble);
             if ((newDouble)==1){
                 startButton.setEnabled(false);
                 pauseButton.setEnabled(true);
                 stopButton.setEnabled(true);
-                swingWorker = new SwingWorker<Void, Void>(){
+                SwingWorker<Void, Void> swingWorker = new SwingWorker<Void, Void>() {
 
                     @Override
                     protected Void doInBackground() throws Exception {
                         isPaused = false;
 
-                         int width = Integer.parseInt(widthField.getText());
-                         int height = Integer.parseInt(heightField.getText());
+                        byte width = Byte.parseByte((widthField.getText()));
+                        byte height = Byte.parseByte((heightField.getText()));
 
-                         int xPoint = Integer.parseInt(startXField.getText());
-                         int yPoint = Integer.parseInt(startYField.getText());
-
-
-                         float toStop =  0 + doubleChanceStop;
-                         float toUp =  toStop + doubleChanceUp;
-                         float toDown = toUp + doubleChanceDown;
-                         float toLeft = toDown + doubleChanceLeft;
-                         float toRight = toLeft + doubleChanceRight;
+                        byte xPoint = Byte.parseByte((startXField.getText()));
+                        byte yPoint = Byte.parseByte((startYField.getText()));
 
 
-
-                         int max = Integer.parseInt(counter.getText());
-                         progressBar1.setMinimum(0);
-                         progressBar1.setMaximum(max);
-
-                         int arrTopOut[] = new int[width];
-                         int arrDownOut[] = new int[width];
-                         int arrLeftOut[] = new int[height];
-                         int arrRightOut[] = new int[height];
-
-                         int stopX[] = new int[width];
-                         int stopY[] = new int[height];
-
-                         int xy[][] = new int[width][height];
-
-                         for (int i = 0; i < max; i++) {
-
-                             metka = true;
-                             Point point = new Point(width,height,xPoint,yPoint);
+                        float toStop = 0 + floatChanceStop;
+                        float toUp = toStop + floatChanceUp;
+                        float toDown = toUp + floatChanceDown;
+                        float toLeft = toDown + floatChanceLeft;
+                        float toRight = toLeft + floatChanceRight;
 
 
-                             if(!isPaused){
-                                 while (metka == true){
+                        int max = Integer.parseInt(counter.getText());
+                        progressBar1.setMinimum(0);
+                        progressBar1.setMaximum(max);
 
-                                     double random = Math.random();
+                        int arrTopOut[] = new int[width];
+                        int arrDownOut[] = new int[width];
+                        int arrLeftOut[] = new int[height];
+                        int arrRightOut[] = new int[height];
 
-                                     if (random >=0 && random<toStop){
-                                         stopOut++;
-                                         stopX[point.toStopX]++;
-                                         stopY[point.toStopY]++;
-                                         xy[point.toStopX][point.toStopY]++;
-                                         break;
-                                     }else if (random<toUp){
-                                         point.moveUp();
-                                     }else if(random<toDown){
-                                         point.moveDown();
-                                     }else if(random<toLeft){
-                                         point.moveLeft();
-                                     }else if (random<toRight)
-                                         point.moveRight();
-                                     progressBar1.setValue(i+1);
+                        //int stopX[] = new int[width];
+                        //int stopY[] = new int[height];
+
+                        int xy[][] = new int[width][height];
+
+                        for (int i = 0; i < max; i++) {
+
+                            metka = true;
+                            Point point = new Point(width, height, xPoint, yPoint);
 
 
-                                     if (point.upBorderCoord  == 1){
-                                         upOut++;
-                                         arrTopOut[point.xPoint]++;
-                                     }else if (point.downBorderCoord == 1){
-                                         downOut++;
-                                         arrDownOut[point.xPoint]++;
-                                     }else if (point.leftBorderCoord == 1){
-                                         leftOut++;
-                                         arrLeftOut[point.yPoint]++;
-                                     }else if(point.rightBorderCoord == 1){
-                                         rightOut++;
-                                         arrRightOut[point.yPoint]++;
-                                     }
-                                 }
-                             }else {
-                            metka = false;
-                            showall("title",arrTopOut,arrDownOut,arrLeftOut,arrRightOut,width,height,xy);
-                            while (isPaused()){
-                                Thread.sleep(100);
+                            if (!isPaused) {
+                                while (metka) {
+
+                                    double random = Math.random();
+
+                                    if (random >= 0 && random < toStop) {
+                                        if (intCounter == 0) {
+                                            for (int j = 0; j < width; j++) {
+                                                for (int k = 0; k < height; k++) {
+                                                    xy[j][k] = 0;
+                                                }
+                                            }
+                                        } else {
+                                            stopOut++;
+                                            //stopX[point.toStopX]++;
+                                            //stopY[point.toStopY]++;
+                                            xy[point.toStopX][point.toStopY]++;
+                                            break;
+                                        }
+                                    } else if (random < toUp) {
+                                        point.moveUp();
+                                    } else if (random < toDown) {
+                                        point.moveDown();
+                                    } else if (random < toLeft) {
+                                        point.moveLeft();
+                                    } else if (random < toRight)
+                                        point.moveRight();
+                                    progressBar1.setValue(i + 1);
+
+
+                                    if (point.upBorderCoord == 1) {
+                                        upOut++;
+                                        arrTopOut[point.xPoint]++;
+                                    } else if (point.downBorderCoord == 1) {
+                                        downOut++;
+                                        arrDownOut[point.xPoint]++;
+                                    } else if (point.leftBorderCoord == 1) {
+                                        leftOut++;
+                                        arrLeftOut[point.yPoint]++;
+                                    } else if (point.rightBorderCoord == 1) {
+                                        rightOut++;
+                                        arrRightOut[point.yPoint]++;
+                                    }
+                                }
+                            } else {
+                                showAll(arrTopOut, arrDownOut, arrLeftOut, arrRightOut, width, height, xy);
+                                while (isPaused()) {
+                                    Thread.sleep(1000);
+                                }
+
                             }
-
                         }
-                         }showall("title",arrTopOut,arrDownOut,arrLeftOut,arrRightOut,width,height,xy);
+                        showAll(arrTopOut, arrDownOut, arrLeftOut, arrRightOut, width, height, xy);
                         pauseButton.setEnabled(false);
+                        long end = System.currentTimeMillis() - start;
+                        System.out.println(end / 100);
                         return null;
                     }
                 };
+
                 swingWorker.execute();
             }else{
                JOptionPane.showMessageDialog(points,"Сумма вероятностей должна ровняться единице!","Warning",JOptionPane.ERROR_MESSAGE);
@@ -372,14 +333,14 @@ public class MainFrameController {
             }
 
         }
-        public void showall(String s, int a[], int b[], int c[], int d[],int width, int height, int[][]xy){
+        private void showAll(int[] a, int[] b, int[] c, int[] d, int width, int height, int[][] xy){
             if (buttonPressed>0){
                 myLineChart.removeAll();
                 chart3D.removeAll();
             }
             //System.out.println("Вверх: " + upOut+ "; Вниз: " + downOut + "; Влево: " + leftOut + "; Вправо: " + rightOut + ";");
 
-            myLineChart.createChart(s,a,b,c,d);
+            myLineChart.createChart("title",a,b,c,d);
             centralPanel.add(panelInfo,BorderLayout.SOUTH);
 
             //centralPanel.revalidate();
@@ -396,7 +357,7 @@ public class MainFrameController {
             mainPanel.revalidate();
             buttonPressed++;
 
-            upLabel.setText(String.valueOf(upOut) + " Вышло вверз;  ");
+            upLabel.setText(String.valueOf(upOut) + " Вышло вверх;  ");
             downLabel.setText(String.valueOf(downOut)+ " Вышло вниз;    ");
             leftLabel.setText(String.valueOf(leftOut)+ " Вышло влево;   ");
             rightLabel.setText(String.valueOf(rightOut)+ " Вышло вправо;    ");
@@ -404,10 +365,11 @@ public class MainFrameController {
         }
     }
 
+
     private class Point{
 
-        private int width;
-        private int height;
+        private byte width;
+        private byte height;
 
         private int xPoint;
         private int yPoint;
@@ -420,7 +382,7 @@ public class MainFrameController {
         private int leftBorderCoord;
         private int rightBorderCoord;
 
-        public Point(int width, int height, int xPoint, int yPoint) {
+        private Point(byte width, byte height, byte xPoint, byte yPoint) {
             this.width = width;
             this.height = height;
             this.xPoint = xPoint;
@@ -429,48 +391,36 @@ public class MainFrameController {
             toStopY = yPoint;
         }
 
-        public void moveUp(){
+        private void moveUp(){
            yPoint++;
            toStopY=yPoint;
-
-           //System.out.println("Up");
            if (yPoint == height){
                upBorderCoord = 1;
-               //System.out.println("Вышло вверх");
-               //System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
                metka = false;
            }
        }
-        public void moveDown(){
+        private void moveDown(){
            yPoint--;
            toStopY=yPoint;
-           //System.out.println("Down");
            if (yPoint < 0){
                downBorderCoord = 1;
-               //System.out.println("Вышло вниз");
-               //System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
                metka = false;
            }
        }
-        public void moveLeft(){
+        private void moveLeft(){
             xPoint--;
             toStopX = xPoint;
-            //System.out.println("Left");
             if (xPoint < 0){
                 leftBorderCoord = 1;
-                //System.out.println("Вышло влево");
-                //System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
                 metka = false;
             }
         }
-        public void moveRight() {
+        private void moveRight() {
             xPoint++;
             toStopX = xPoint;
-            //System.out.println("Right");
+
             if (xPoint == width) {
                 rightBorderCoord = 1;
-               // System.out.println("Вышло вправо");
-                //System.out.println("x:  " + xPoint + ".  y:  " + yPoint);
                 metka = false;
             }
         }
@@ -484,20 +434,12 @@ public class MainFrameController {
         public void actionPerformed(ActionEvent e) {
             if (pausePlay != 3 & pausePlay%2 == 0){
                 pauseButton.setText("Пауза");
-
-                System.out.println(pausePlay);
-
             }else {
                 pauseButton.setText("Продолжить");
             }
             pausePlay++;
-            System.out.println(pausePlay);
 
-            if (pauseButton.getText().equals("Пауза")){
-                isPaused = false;
-            }else {
-                isPaused = true;
-            }
+            isPaused = !pauseButton.getText().equals("Пауза");
 
         }
     }

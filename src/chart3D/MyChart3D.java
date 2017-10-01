@@ -9,18 +9,16 @@ import com.orsoncharts.axis.NumberAxis3D;
 import com.orsoncharts.axis.StandardCategoryAxis3D;
 import com.orsoncharts.data.category.CategoryDataset3D;
 import com.orsoncharts.data.category.StandardCategoryDataset3D;
-import com.orsoncharts.data.DefaultKeyedValues;
 import com.orsoncharts.label.StandardCategoryItemLabelGenerator;
 import com.orsoncharts.legend.LegendAnchor;
 import com.orsoncharts.plot.CategoryPlot3D;
 import com.orsoncharts.util.Orientation;
 import com.orsonpdf.PDFHints;
-import controller.MainFrameController;
 
 /**
  * 3D bar chart configuration for demo applications.
  */
-public class MyChart3D{
+class MyChart3D{
 
 
     /**
@@ -30,7 +28,7 @@ public class MyChart3D{
      *
      * @return A bar chart.
      */
-    public static com.orsoncharts.Chart3D createChart(CategoryDataset3D dataset) {
+    static com.orsoncharts.Chart3D createChart(CategoryDataset3D dataset) {
         com.orsoncharts.Chart3D chart = Chart3DFactory.createBarChart(
                 "",".", dataset,
                 null, null, "кол-во");
@@ -59,16 +57,14 @@ public class MyChart3D{
         return chart;
     }
 
-    public static CategoryDataset3D createDataset(int x, int y, int[][] xy) {
-        StandardCategoryDataset3D dataset = new StandardCategoryDataset3D();
+    static CategoryDataset3D<String, Integer, Integer> createDataSet(int x, int y, int[][] xy) {
+        StandardCategoryDataset3D<String, Integer, Integer> dataSet = new StandardCategoryDataset3D<>();
 
         for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                dataset.setValue(xy[i][j],"точки",i+1,j+1);
-            }
+            for (int j = 0; j < y; j++) dataSet.setValue(xy[i][j], "точки", i + 1, j + 1);
         }
 
-        return dataset;
+        return dataSet;
     }
 
 }

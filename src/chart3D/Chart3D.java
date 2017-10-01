@@ -23,10 +23,10 @@ import com.orsoncharts.graphics3d.swing.DisplayPanel3D;
         add(createDemoPanel(x,y,xy,centralPanelWidth,centralPanelHeight));
     }
 
-    public static JPanel createDemoPanel(int x, int y, int[][] xy, int centralPanelWidth, int centralPanelHeight) {
+    private static JPanel createDemoPanel(int x, int y, int[][] xy, int centralPanelWidth, int centralPanelHeight) {
         DemoPanel content = new DemoPanel(new BorderLayout());
         content.setPreferredSize(new Dimension(centralPanelWidth-700,centralPanelHeight ));
-        CategoryDataset3D dataset = MyChart3D.createDataset(x,y,xy);
+        CategoryDataset3D dataset = MyChart3D.createDataSet(x,y,xy);
         com.orsoncharts.Chart3D chart = MyChart3D.createChart(dataset);
         Chart3DPanel chartPanel = new Chart3DPanel(chart);
         content.setChartPanel(chartPanel);
