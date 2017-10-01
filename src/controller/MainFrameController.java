@@ -41,10 +41,6 @@ public class MainFrameController {
     int pausePlay = 3;
     private volatile boolean isPaused;
 
-    public boolean isPaused() {
-        return isPaused;
-    }
-
     //Constructor
     public MainFrameController() {
         points = new Points();
@@ -105,10 +101,16 @@ public class MainFrameController {
         centralPanel = points.getCentralPanel();
         panelInfo = points.getPanelInfo();
         pauseButton = points.getPauseButton();
+        pauseButton.setEnabled(false);
         stopButton = points.getStopButton();
+        stopButton.setEnabled(false);
 
 
 
+    }
+
+    public boolean isPaused() {
+        return isPaused;
     }
 
     public void testing(){
@@ -123,7 +125,6 @@ public class MainFrameController {
         startYField.setText(String.valueOf(5));
         counter.setText(String.valueOf(10_000_000));
     }
-
     //setVisibleTrue
     public void showMainFrame() {
         points.setLocationRelativeTo(null);
@@ -233,7 +234,7 @@ public class MainFrameController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            startButton.setEnabled(false);
+
 
             String stringChanceUp = chanceUp.getText();
             String stringChanceDown = chanceDown.getText();
@@ -249,15 +250,14 @@ public class MainFrameController {
                 float doubleChanceStop = Float.parseFloat(stringChanceStop);
                 int intCounter = Integer.parseInt(stringCounter);
 
-               // double doubleChanceUp = Double.parseDouble(stringChanceUp);
-               // double doubleChanceDown = Double.parseDouble(stringChanceDown);
-                //double doubleChanceLeft = Double.parseDouble(stringChanceLeft);
-                //double doubleChanceRight = Double.parseDouble(stringChanceRight);
-               // double doubleChanceStop = Double.parseDouble(stringChanceStop);
+
             double res = (doubleChanceUp + doubleChanceDown + doubleChanceLeft + doubleChanceRight + doubleChanceStop);
             double newDouble = new BigDecimal(res).setScale(3, RoundingMode.HALF_UP).doubleValue();
             System.out.println(newDouble);
             if ((newDouble)==1){
+                startButton.setEnabled(false);
+                pauseButton.setEnabled(true);
+                stopButton.setEnabled(true);
                 swingWorker = new SwingWorker<Void, Void>(){
 
                     public int stop = 0;
@@ -361,12 +361,8 @@ public class MainFrameController {
                             }
 
                         }
-
-                                 }showall("title",arrTopOut,arrDownOut,arrLeftOut,arrRightOut,width,height,xy);
-
-
-
-
+                         }showall("title",arrTopOut,arrDownOut,arrLeftOut,arrRightOut,width,height,xy);
+                        pauseButton.setEnabled(false);
                         return null;
                     }
                 };
@@ -374,6 +370,7 @@ public class MainFrameController {
             }else{
                JOptionPane.showMessageDialog(points,"Сумма вероятностей должна ровняться единице!","Warning",JOptionPane.ERROR_MESSAGE);
                startButton.setEnabled(true);
+               pauseButton.setEnabled(false);
             }
 
         }
@@ -389,7 +386,10 @@ public class MainFrameController {
 
             //centralPanel.revalidate();
             centralPanel.repaint();
-            chart3D.startChart3D(width,height,xy);
+            int centralPanelWidth = centralPanel.getWidth();
+            int centralPanelHeight = centralPanel.getHeight();
+
+            chart3D.startChart3D(width,height,xy,centralPanelWidth,centralPanelHeight);
             centralPanel.add(chart3D,BorderLayout.CENTER);
 
             centralPanel.add(myLineChart,BorderLayout.WEST);
@@ -501,7 +501,9 @@ public class MainFrameController {
     private class StopListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            swingWorker.cancel(true);
+            stopButton.setEnabled(false);
+
+
             chanceUp.setText(String.valueOf(0));
             chanceDown.setText(String.valueOf(0));
             chanceLeft.setText(String.valueOf(0));
@@ -520,6 +522,8 @@ public class MainFrameController {
             pausePlay++;
 
             startButton.setEnabled(true);
+            pauseButton.setEnabled(false);
+            pauseButton.setText("Пауза");
         }
     }
 }
