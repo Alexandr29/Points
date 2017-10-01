@@ -23,8 +23,33 @@ public class Points extends JFrame {
     private JPanel panelInfo;
     private JButton pauseButton;
     private JButton stopButton;
+    private JLabel upLabel;
+    private JLabel downLabel;
+    private JLabel leftLabel;
+    private JLabel rightLabel;
+    private JLabel stopLabel;
+
+    public JLabel getStopLabel() {
+        return stopLabel;
+    }
+
     Dimension sSize = Toolkit.getDefaultToolkit ().getScreenSize ();
 
+    public JLabel getUpLabel() {
+        return upLabel;
+    }
+
+    public JLabel getDownLabel() {
+        return downLabel;
+    }
+
+    public JLabel getLeftLabel() {
+        return leftLabel;
+    }
+
+    public JLabel getRightLabel() {
+        return rightLabel;
+    }
 
     public JButton getPauseButton() {
         return pauseButton;

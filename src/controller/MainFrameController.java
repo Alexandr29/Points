@@ -40,6 +40,16 @@ public class MainFrameController {
     private SwingWorker<Void, Void> swingWorker;
     int pausePlay = 3;
     private volatile boolean isPaused;
+    private JLabel upLabel;
+    private JLabel downLabel;
+    private JLabel leftLabel;
+    private JLabel rightLabel;
+    private JLabel stopLabel;
+    private int upOut = 0;
+    private int downOut = 0;
+    private int leftOut = 0;
+    private int rightOut = 0;
+    private int stopOut = 0;
 
     //Constructor
     public MainFrameController() {
@@ -104,6 +114,12 @@ public class MainFrameController {
         pauseButton.setEnabled(false);
         stopButton = points.getStopButton();
         stopButton.setEnabled(false);
+        upLabel = points.getUpLabel();
+        downLabel = points.getDownLabel();
+        leftLabel = points.getLeftLabel();
+        rightLabel = points.getRightLabel();
+        stopLabel = points.getStopLabel();
+
 
 
 
@@ -260,12 +276,6 @@ public class MainFrameController {
                 stopButton.setEnabled(true);
                 swingWorker = new SwingWorker<Void, Void>(){
 
-                    public int stop = 0;
-                    public int up = 0;
-                    public int down = 0;
-                    public int left = 0;
-                    public int right = 0;
-
                     @Override
                     protected Void doInBackground() throws Exception {
                         isPaused = false;
@@ -283,24 +293,11 @@ public class MainFrameController {
                          float toLeft = toDown + doubleChanceLeft;
                          float toRight = toLeft + doubleChanceRight;
 
-                         //System.out.println("toStop: " +"[0] "+ toStop);
-                         //System.out.println("toUp: " + "["+toStop +"] " + "[" + toUp +"]");
-                         //System.out.println("toDown: " + "["+toUp +"] " + "[" + toDown +"]");
-                         //System.out.println("toLeft: " + "["+toDown +"] " + "[" + toLeft +"]");
-                         //System.out.println("toRight: " + "["+toLeft +"] " + "[" + toRight +"]");
 
 
                          int max = Integer.parseInt(counter.getText());
                          progressBar1.setMinimum(0);
                          progressBar1.setMaximum(max);
-                         // for (int i = 0; i < max; i++) {
-                         //    progressBar1.setValue(i+1);
-                         //}
-
-                         int upOut=0;
-                         int downOut=0;
-                         int leftOut=0;
-                         int rightOut=0;
 
                          int arrTopOut[] = new int[width];
                          int arrDownOut[] = new int[width];
@@ -324,6 +321,7 @@ public class MainFrameController {
                                      double random = Math.random();
 
                                      if (random >=0 && random<toStop){
+                                         stopOut++;
                                          stopX[point.toStopX]++;
                                          stopY[point.toStopY]++;
                                          xy[point.toStopX][point.toStopY]++;
@@ -397,6 +395,12 @@ public class MainFrameController {
             mainPanel.add(centralPanel,BorderLayout.CENTER);
             mainPanel.revalidate();
             buttonPressed++;
+
+            upLabel.setText(String.valueOf(upOut) + " Вышло вверз;  ");
+            downLabel.setText(String.valueOf(downOut)+ " Вышло вниз;    ");
+            leftLabel.setText(String.valueOf(leftOut)+ " Вышло влево;   ");
+            rightLabel.setText(String.valueOf(rightOut)+ " Вышло вправо;    ");
+            stopLabel.setText(String.valueOf(stopOut)+" Остановилось;    ");
         }
     }
 
@@ -515,6 +519,11 @@ public class MainFrameController {
             startYField.setText(String.valueOf(0));
             counter.setText(String.valueOf(0));
             progressBar1.setValue(0);
+            upLabel.setText("");
+            downLabel.setText("");
+            leftLabel.setText("");
+            rightLabel.setText("");
+            stopLabel.setText("");
 
             myLineChart.removeAll();
             chart3D.removeAll();
