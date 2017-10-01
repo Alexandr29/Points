@@ -19,7 +19,10 @@ import com.orsoncharts.graphics3d.swing.DisplayPanel3D;
 @SuppressWarnings("serial")
     public class Chart3D extends JPanel {
 
-    public Chart3D(int x, int y, int[][] xy) {
+    public Chart3D() {
+
+    }
+    public void startChart3D(int x, int y, int[][] xy){
         add(createDemoPanel(x,y,xy));
     }
 

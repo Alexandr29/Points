@@ -35,6 +35,15 @@ public class MainFrameController {
     private JPanel centralPanel;
     private JPanel panel3D;
     private JPanel panelInfo;
+    private JButton pauseButton;
+    private JButton stopButton;
+    private SwingWorker<Void, Void> swingWorker;
+    int pausePlay = 3;
+    private volatile boolean isPaused;
+
+    public boolean isPaused() {
+        return isPaused;
+    }
 
     //Constructor
     public MainFrameController() {
@@ -69,9 +78,13 @@ public class MainFrameController {
         startYField.addKeyListener(new LeftPanelFieldsAdapters());
 
         startButton.addActionListener(new StartProgressBarListener());
+        pauseButton.addActionListener(new PauseListener());
+        stopButton.addActionListener(new StopListener());
     }
 
     private void initComponents() {
+        isPaused = false;
+        chart3D = new Chart3D();
         chanceUp = points.getChanceUp();
         chanceDown = points.getChanceDown();
         chanceLeft = points.getChanceLeft();
@@ -91,6 +104,9 @@ public class MainFrameController {
         mainPanel = points.getMainPanel();
         centralPanel = points.getCentralPanel();
         panelInfo = points.getPanelInfo();
+        pauseButton = points.getPauseButton();
+        stopButton = points.getStopButton();
+
 
 
     }
@@ -105,7 +121,7 @@ public class MainFrameController {
         heightField.setText(String.valueOf(11));
         startXField.setText(String.valueOf(5));
         startYField.setText(String.valueOf(5));
-        counter.setText(String.valueOf(10));
+        counter.setText(String.valueOf(10_000_000));
     }
 
     //setVisibleTrue
@@ -118,6 +134,7 @@ public class MainFrameController {
 
         @Override
         public void mouseReleased(MouseEvent e) {
+            testing();
             if (chanceStop.getText().equals("")) {
                 if ((!Objects.equals(chanceUp.getText(), "")) & (!Objects.equals(chanceDown.getText(), "")) & (!Objects.equals(chanceLeft.getText(), "")) & (!Objects.equals(chanceRight.getText(), ""))) {
                     double d = Double.parseDouble(chanceUp.getText());
@@ -216,6 +233,7 @@ public class MainFrameController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            startButton.setEnabled(false);
 
             String stringChanceUp = chanceUp.getText();
             String stringChanceDown = chanceDown.getText();
@@ -240,7 +258,7 @@ public class MainFrameController {
             double newDouble = new BigDecimal(res).setScale(3, RoundingMode.HALF_UP).doubleValue();
             System.out.println(newDouble);
             if ((newDouble)==1){
-                SwingWorker<Void, Void> swingWorker = new SwingWorker<Void, Void>(){
+                swingWorker = new SwingWorker<Void, Void>(){
 
                     public int stop = 0;
                     public int up = 0;
@@ -250,127 +268,135 @@ public class MainFrameController {
 
                     @Override
                     protected Void doInBackground() throws Exception {
-                        int width = Integer.parseInt(widthField.getText());
-                        int height = Integer.parseInt(heightField.getText());
+                        isPaused = false;
 
-                        int xPoint = Integer.parseInt(startXField.getText());
-                        int yPoint = Integer.parseInt(startYField.getText());
+                         int width = Integer.parseInt(widthField.getText());
+                         int height = Integer.parseInt(heightField.getText());
 
-
-                        float toStop =  0 + doubleChanceStop;
-                        float toUp =  toStop + doubleChanceUp;
-                        float toDown = toUp + doubleChanceDown;
-                        float toLeft = toDown + doubleChanceLeft;
-                        float toRight = toLeft + doubleChanceRight;
-
-                        //System.out.println("toStop: " +"[0] "+ toStop);
-                        //System.out.println("toUp: " + "["+toStop +"] " + "[" + toUp +"]");
-                        //System.out.println("toDown: " + "["+toUp +"] " + "[" + toDown +"]");
-                        //System.out.println("toLeft: " + "["+toDown +"] " + "[" + toLeft +"]");
-                        //System.out.println("toRight: " + "["+toLeft +"] " + "[" + toRight +"]");
+                         int xPoint = Integer.parseInt(startXField.getText());
+                         int yPoint = Integer.parseInt(startYField.getText());
 
 
-                        int max = Integer.parseInt(counter.getText());
-                        progressBar1.setMinimum(0);
-                        progressBar1.setMaximum(max);
-                       // for (int i = 0; i < max; i++) {
-                        //    progressBar1.setValue(i+1);
-                        //}
+                         float toStop =  0 + doubleChanceStop;
+                         float toUp =  toStop + doubleChanceUp;
+                         float toDown = toUp + doubleChanceDown;
+                         float toLeft = toDown + doubleChanceLeft;
+                         float toRight = toLeft + doubleChanceRight;
 
-                        int upOut=0;
-                        int downOut=0;
-                        int leftOut=0;
-                        int rightOut=0;
-
-                        int arrTopOut[] = new int[width];
-                        int arrDownOut[] = new int[width];
-                        int arrLeftOut[] = new int[height];
-                        int arrRightOut[] = new int[height];
-
-                        int stopX[] = new int[width];
-                        int stopY[] = new int[height];
-
-                        int xy[][] = new int[width][height];
-
-                        for (int i = 0; i < max; i++) {
+                         //System.out.println("toStop: " +"[0] "+ toStop);
+                         //System.out.println("toUp: " + "["+toStop +"] " + "[" + toUp +"]");
+                         //System.out.println("toDown: " + "["+toUp +"] " + "[" + toDown +"]");
+                         //System.out.println("toLeft: " + "["+toDown +"] " + "[" + toLeft +"]");
+                         //System.out.println("toRight: " + "["+toLeft +"] " + "[" + toRight +"]");
 
 
-                            Point point = new Point(width,height,xPoint,yPoint);
-                            metka = true;
+                         int max = Integer.parseInt(counter.getText());
+                         progressBar1.setMinimum(0);
+                         progressBar1.setMaximum(max);
+                         // for (int i = 0; i < max; i++) {
+                         //    progressBar1.setValue(i+1);
+                         //}
+
+                         int upOut=0;
+                         int downOut=0;
+                         int leftOut=0;
+                         int rightOut=0;
+
+                         int arrTopOut[] = new int[width];
+                         int arrDownOut[] = new int[width];
+                         int arrLeftOut[] = new int[height];
+                         int arrRightOut[] = new int[height];
+
+                         int stopX[] = new int[width];
+                         int stopY[] = new int[height];
+
+                         int xy[][] = new int[width][height];
+
+                         for (int i = 0; i < max; i++) {
+
+                             metka = true;
+                             Point point = new Point(width,height,xPoint,yPoint);
 
 
-                             while (metka == true){
-                                 double random = Math.random();
+                             if(!isPaused){
+                                 while (metka == true){
 
-                                 if (random >=0 && random<toStop){
-                                     stopX[point.toStopX]++;
-                                     stopY[point.toStopY]++;
-                                     xy[point.toStopX][point.toStopY]++;
-                                     break;
-                                 }else if (random<toUp){
-                                     point.moveUp();
-                                 }else if(random<toDown){
-                                     point.moveDown();
-                                 }else if(random<toLeft){
-                                     point.moveLeft();
-                                 }else if (random<toRight)
-                                     point.moveRight();
-                                 progressBar1.setValue(i+1);
+                                     double random = Math.random();
 
-                             }
-                            if (point.upBorderCoord  == 1){
-                                upOut++;
-                                arrTopOut[point.xPoint]++;
-                            }else if (point.downBorderCoord == 1){
-                                downOut++;
-                                arrDownOut[point.xPoint]++;
-                            }else if (point.leftBorderCoord == 1){
-                                leftOut++;
-                                arrLeftOut[point.yPoint]++;
-                            }else if(point.rightBorderCoord == 1){
-                                rightOut++;
-                                arrRightOut[point.yPoint]++;
+                                     if (random >=0 && random<toStop){
+                                         stopX[point.toStopX]++;
+                                         stopY[point.toStopY]++;
+                                         xy[point.toStopX][point.toStopY]++;
+                                         break;
+                                     }else if (random<toUp){
+                                         point.moveUp();
+                                     }else if(random<toDown){
+                                         point.moveDown();
+                                     }else if(random<toLeft){
+                                         point.moveLeft();
+                                     }else if (random<toRight)
+                                         point.moveRight();
+                                     progressBar1.setValue(i+1);
+
+
+                                     if (point.upBorderCoord  == 1){
+                                         upOut++;
+                                         arrTopOut[point.xPoint]++;
+                                     }else if (point.downBorderCoord == 1){
+                                         downOut++;
+                                         arrDownOut[point.xPoint]++;
+                                     }else if (point.leftBorderCoord == 1){
+                                         leftOut++;
+                                         arrLeftOut[point.yPoint]++;
+                                     }else if(point.rightBorderCoord == 1){
+                                         rightOut++;
+                                         arrRightOut[point.yPoint]++;
+                                     }
+                                 }
+                             }else {
+                            metka = false;
+                            showall("title",arrTopOut,arrDownOut,arrLeftOut,arrRightOut,width,height,xy);
+                            while (isPaused()){
+                                Thread.sleep(100);
                             }
 
-
                         }
 
-                        if (buttonPressed>0){
-                            myLineChart.removeAll();
-                            chart3D.removeAll();
-                        }
-                        //System.out.println("Вверх: " + upOut+ "; Вниз: " + downOut + "; Влево: " + leftOut + "; Вправо: " + rightOut + ";");
+                                 }showall("title",arrTopOut,arrDownOut,arrLeftOut,arrRightOut,width,height,xy);
 
-                        myLineChart.createChart("График",arrTopOut,arrDownOut,arrLeftOut,arrRightOut);
-                        panelInfo.setBackground(Color.blue);
-                        centralPanel.add(panelInfo,BorderLayout.SOUTH);
-                        chart3D = new Chart3D(width,height,xy);
-                        //centralPanel.revalidate();
-                        centralPanel.repaint();
 
-                        centralPanel.add(chart3D,BorderLayout.CENTER);
-                        centralPanel.add(myLineChart,BorderLayout.WEST);
-                        centralPanel.setBackground(Color.green);
-                        mainPanel.add(centralPanel,BorderLayout.CENTER);
-                        mainPanel.revalidate();
-                        buttonPressed++;
 
-                        for (int i = 0; i < width; i++) {
-                            for (int j = 0; j < height; j++) {
-                                System.out.print(xy[i][j] + " ");
-                            }
-                            System.out.println();
-                        }
 
                         return null;
-
                     }
                 };
                 swingWorker.execute();
             }else{
                JOptionPane.showMessageDialog(points,"Сумма вероятностей должна ровняться единице!","Warning",JOptionPane.ERROR_MESSAGE);
+               startButton.setEnabled(true);
             }
 
+        }
+        public void showall(String s, int a[], int b[], int c[], int d[],int width, int height, int[][]xy){
+            if (buttonPressed>0){
+                myLineChart.removeAll();
+                chart3D.removeAll();
+            }
+            //System.out.println("Вверх: " + upOut+ "; Вниз: " + downOut + "; Влево: " + leftOut + "; Вправо: " + rightOut + ";");
+
+            myLineChart.createChart(s,a,b,c,d);
+            centralPanel.add(panelInfo,BorderLayout.SOUTH);
+
+            //centralPanel.revalidate();
+            centralPanel.repaint();
+            chart3D.startChart3D(width,height,xy);
+            centralPanel.add(chart3D,BorderLayout.CENTER);
+
+            centralPanel.add(myLineChart,BorderLayout.WEST);
+            centralPanel.setBackground(Color.green);
+            mainPanel.add(centralPanel,BorderLayout.CENTER);
+            mainPanel.revalidate();
+            buttonPressed++;
         }
     }
 
@@ -449,4 +475,51 @@ public class MainFrameController {
     }
 
 
+    private class PauseListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (pausePlay != 3 & pausePlay%2 == 0){
+                pauseButton.setText("Пауза");
+
+                System.out.println(pausePlay);
+
+            }else {
+                pauseButton.setText("Продолжить");
+            }
+            pausePlay++;
+            System.out.println(pausePlay);
+
+            if (pauseButton.getText().equals("Пауза")){
+                isPaused = false;
+            }else {
+                isPaused = true;
+            }
+
+        }
+    }
+
+    private class StopListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            swingWorker.cancel(true);
+            chanceUp.setText(String.valueOf(0));
+            chanceDown.setText(String.valueOf(0));
+            chanceLeft.setText(String.valueOf(0));
+            chanceRight.setText(String.valueOf(0));
+            chanceStop.setText(String.valueOf(0));
+            widthField.setText(String.valueOf(0));
+            heightField.setText(String.valueOf(0));
+            startXField.setText(String.valueOf(0));
+            startYField.setText(String.valueOf(0));
+            counter.setText(String.valueOf(0));
+            progressBar1.setValue(0);
+
+            myLineChart.removeAll();
+            chart3D.removeAll();
+            mainPanel.revalidate();
+            pausePlay++;
+
+            startButton.setEnabled(true);
+        }
+    }
 }

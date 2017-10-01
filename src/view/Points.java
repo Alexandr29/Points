@@ -1,5 +1,6 @@
 package view;
 import javax.swing.*;
+import java.awt.*;
 
 public class Points extends JFrame {
     private JPanel mainPanel;
@@ -20,6 +21,18 @@ public class Points extends JFrame {
     private JPanel leftPanel;
     private JPanel centralPanel;
     private JPanel panelInfo;
+    private JButton pauseButton;
+    private JButton stopButton;
+    Dimension sSize = Toolkit.getDefaultToolkit ().getScreenSize ();
+
+
+    public JButton getPauseButton() {
+        return pauseButton;
+    }
+
+    public JButton getStopButton() {
+        return stopButton;
+    }
 
     public JPanel getPanelInfo() {
         return panelInfo;
@@ -33,8 +46,9 @@ public class Points extends JFrame {
     //Constructor
     public Points() {
         setTitle("Points");
+        setExtendedState(MAXIMIZED_BOTH);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(sSize.width, sSize.height);
         setContentPane(mainPanel);
     }
 

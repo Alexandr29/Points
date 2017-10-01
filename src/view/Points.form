@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.Points">
   <grid id="27dc6" binding="mainPanel" layout-manager="BorderLayout" hgap="1" vgap="1">
     <constraints>
-      <xy x="20" y="20" width="767" height="571"/>
+      <xy x="20" y="20" width="826" height="671"/>
     </constraints>
     <properties>
       <alignmentX value="0.5"/>
@@ -201,6 +201,10 @@
         <rowspec value="center:d:grow"/>
         <rowspec value="top:4dlu:noGrow"/>
         <rowspec value="center:max(d;4px):noGrow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
+        <rowspec value="top:4dlu:noGrow"/>
+        <rowspec value="center:max(d;4px):noGrow"/>
         <colspec value="fill:d:grow"/>
         <constraints border-constraint="East"/>
         <properties>
@@ -343,7 +347,25 @@
               <background color="-5725793"/>
               <font name="Monotype Corsiva" size="20" style="1"/>
               <foreground color="-12550425"/>
-              <text value="Start"/>
+              <text value="Старт"/>
+            </properties>
+          </component>
+          <component id="a4d99" class="javax.swing.JButton" binding="pauseButton">
+            <constraints>
+              <grid row="24" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
+            <properties>
+              <text value="Пауза"/>
+            </properties>
+          </component>
+          <component id="f8a07" class="javax.swing.JButton" binding="stopButton">
+            <constraints>
+              <grid row="26" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
+            <properties>
+              <text value="Стоп"/>
             </properties>
           </component>
         </children>
@@ -357,7 +379,20 @@
             <constraints border-constraint="Center"/>
             <properties/>
             <border type="none"/>
-            <children/>
+            <children>
+              <component id="435f6" class="javax.swing.JLabel">
+                <constraints/>
+                <properties>
+                  <text value="text1"/>
+                </properties>
+              </component>
+              <component id="81eb1" class="javax.swing.JLabel">
+                <constraints/>
+                <properties>
+                  <text value="Label2"/>
+                </properties>
+              </component>
+            </children>
           </grid>
         </children>
       </grid>
