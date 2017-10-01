@@ -4,6 +4,8 @@ import java.awt.*;
 
 public class Points extends JFrame {
     private JPanel mainPanel;
+    private JPanel topPanel;
+    private JPanel downPanel;
     private JFormattedTextField chanceUp;
     private JFormattedTextField chanceDown;
     private JFormattedTextField chanceLeft;
@@ -16,6 +18,7 @@ public class Points extends JFrame {
     private JFormattedTextField heightField;
     private JFormattedTextField startXField;
     private JFormattedTextField startYField;
+    private JPanel leftPanel;
     private JPanel centralPanel;
     private JPanel panelInfo;
     private JButton pauseButton;
@@ -29,6 +32,8 @@ public class Points extends JFrame {
     public JLabel getStopLabel() {
         return stopLabel;
     }
+
+    private Dimension sSize = Toolkit.getDefaultToolkit ().getScreenSize ();
 
     public JLabel getUpLabel() {
         return upLabel;
@@ -68,7 +73,6 @@ public class Points extends JFrame {
         setTitle("Points");
         setExtendedState(MAXIMIZED_BOTH);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        Dimension sSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(sSize.width, sSize.height);
         setContentPane(mainPanel);
     }
@@ -105,6 +109,14 @@ public class Points extends JFrame {
     public JFormattedTextField getCounter() {
 
         return counter;
+    }
+
+    public JPanel getTopPanel() {
+        return topPanel;
+    }
+
+    public JPanel getDownPanel() {
+        return downPanel;
     }
 
     //leftPanel
