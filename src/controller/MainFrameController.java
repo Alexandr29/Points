@@ -47,6 +47,8 @@ public class MainFrameController {
     private int rightOut = 0;
     private int stopOut = 0;
     private long start;
+    SwingWorker<Void, Void> swingWorker;
+    private volatile boolean boolStop;
 
     //Constructor
     public MainFrameController() {
@@ -124,7 +126,7 @@ public class MainFrameController {
         return isPaused;
     }
 
-   private void testing(){
+        private void testing(){
         chanceUp.setText(String.valueOf(0.24));
         chanceDown.setText(String.valueOf(0.24));
         chanceLeft.setText(String.valueOf(0.24));
@@ -135,6 +137,29 @@ public class MainFrameController {
         startXField.setText(String.valueOf(5));
         startYField.setText(String.valueOf(5));
         counter.setText(String.valueOf(10_000_000));}
+        private void clearAll(){
+            chanceUp.setText(String.valueOf(0));
+            chanceDown.setText(String.valueOf(0));
+            chanceLeft.setText(String.valueOf(0));
+            chanceRight.setText(String.valueOf(0));
+            chanceStop.setText(String.valueOf(0));
+            widthField.setText(String.valueOf(0));
+            heightField.setText(String.valueOf(0));
+            startXField.setText(String.valueOf(0));
+            startYField.setText(String.valueOf(0));
+            counter.setText(String.valueOf(0));
+            progressBar1.setValue(0);
+            upLabel.setText("");
+            downLabel.setText("");
+            leftLabel.setText("");
+            rightLabel.setText("");
+            stopLabel.setText("");
+
+            myLineChart.removeAll();
+            chart3D.removeAll();
+            mainPanel.revalidate();
+        }
+
 
     //setVisibleTrue
     public void showMainFrame() {
@@ -202,6 +227,7 @@ public class MainFrameController {
         @Override
         public void actionPerformed(ActionEvent e) {
             start = System.currentTimeMillis();
+            pausePlay = 3;
 
             testing();
             String stringChanceUp = chanceUp.getText();
@@ -225,11 +251,12 @@ public class MainFrameController {
                 startButton.setEnabled(false);
                 pauseButton.setEnabled(true);
                 stopButton.setEnabled(true);
-                SwingWorker<Void, Void> swingWorker = new SwingWorker<Void, Void>() {
+               swingWorker = new SwingWorker<Void, Void>() {
 
                     @Override
                     protected Void doInBackground() throws Exception {
                         isPaused = false;
+                        boolStop = true;
 
                         byte width = Byte.parseByte((widthField.getText()));
                         byte height = Byte.parseByte((heightField.getText()));
@@ -265,8 +292,9 @@ public class MainFrameController {
                             Point point = new Point(width, height, xPoint, yPoint);
 
 
-                            if (!isPaused) {
-                                while (metka) {
+
+                            if (!isPaused & boolStop == true) {
+                                while (metka & !isCancelled()) {
 
                                     double random = Math.random();
 
@@ -309,7 +337,10 @@ public class MainFrameController {
                                         arrRightOut[point.yPoint]++;
                                     }
                                 }
-                            } else {
+                            }else if (!isPaused() && boolStop == false){
+                                clearAll();
+                            }
+                                else {
                                 showAll(arrTopOut, arrDownOut, arrLeftOut, arrRightOut, width, height, xy);
                                 while (isPaused()) {
                                     Thread.sleep(1000);
@@ -391,6 +422,11 @@ public class MainFrameController {
             toStopY = yPoint;
         }
 
+        @Override
+        public String toString() {
+            return getClass().toString();
+        }
+
         private void moveUp(){
            yPoint++;
            toStopY=yPoint;
@@ -447,30 +483,11 @@ public class MainFrameController {
     private class StopListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            boolStop = false;
             stopButton.setEnabled(false);
-
-
-            chanceUp.setText(String.valueOf(0));
-            chanceDown.setText(String.valueOf(0));
-            chanceLeft.setText(String.valueOf(0));
-            chanceRight.setText(String.valueOf(0));
-            chanceStop.setText(String.valueOf(0));
-            widthField.setText(String.valueOf(0));
-            heightField.setText(String.valueOf(0));
-            startXField.setText(String.valueOf(0));
-            startYField.setText(String.valueOf(0));
-            counter.setText(String.valueOf(0));
-            progressBar1.setValue(0);
-            upLabel.setText("");
-            downLabel.setText("");
-            leftLabel.setText("");
-            rightLabel.setText("");
-            stopLabel.setText("");
-
-            myLineChart.removeAll();
-            chart3D.removeAll();
-            mainPanel.revalidate();
-            pausePlay++;
+            swingWorker.cancel(true);
+            clearAll();
+            //pausePlay++;
 
             startButton.setEnabled(true);
             pauseButton.setEnabled(false);

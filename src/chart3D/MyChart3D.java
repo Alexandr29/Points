@@ -30,7 +30,7 @@ class MyChart3D{
      */
     static com.orsoncharts.Chart3D createChart(CategoryDataset3D dataset) {
         com.orsoncharts.Chart3D chart = Chart3DFactory.createBarChart(
-                "",".", dataset,
+                null,null, dataset,
                 null, null, "кол-во");
 
         // we use the following hint to render text as vector graphics
